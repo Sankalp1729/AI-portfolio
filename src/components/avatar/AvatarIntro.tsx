@@ -77,10 +77,14 @@ export default function AvatarIntro() {
     }
 
     const morphDelay = getIntroDuration(introText);
-    const orbTimer = window.setTimeout(() => setShowOrb(true), morphDelay);
+    const closeDelay = morphDelay + 900;
+    const orbTimer = window.setTimeout(
+      () => setShowOrb(true),
+      closeDelay + 250,
+    );
     const closeTimer = window.setTimeout(
       () => setShowIntro(false),
-      morphDelay + 900,
+      closeDelay,
     );
 
     return () => {
@@ -172,27 +176,9 @@ export default function AvatarIntro() {
           }}
           className="fixed bottom-6 right-6 z-[75] flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-blue-400/30 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.92),rgba(37,99,235,0.55))] shadow-[0_0_30px_rgba(59,130,246,0.35)]"
           aria-label="Replay avatar intro"
-          animate={
-            prefersReducedMotion
-              ? undefined
-              : {
-                  scale: [1, 1.08, 1],
-                  boxShadow: [
-                    "0 0 18px rgba(59,130,246,0.45)",
-                    "0 0 30px rgba(124,58,237,0.48)",
-                    "0 0 18px rgba(59,130,246,0.45)",
-                  ],
-                }
-          }
-          transition={
-            prefersReducedMotion
-              ? undefined
-              : {
-                  duration: 3.6,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                }
-          }
+          initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: "spring", stiffness: 180, damping: 18 }}
         >
           <span className="h-3 w-3 rounded-full bg-white/90" />
         </motion.button>

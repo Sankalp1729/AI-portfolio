@@ -1,8 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #050505;
+  --foreground: #f8fafc;
+  --bg-base: #050505;
+  --bg-surface: #0a0a0f;
+  --bg-card: #0f0f1a;
+  --accent-blue: #3b82f6;
+  --accent-blue-glow: #2563eb;
+  --accent-purple: #7c3aed;
+  --accent-purple-glow: #8b5cf6;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+  --border: rgba(255,255,255,0.06);
+  --glass-bg: rgba(255,255,255,0.04);
 }
 
 @theme inline {
@@ -12,15 +24,65 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(circle at top, rgba(59, 130, 246, 0.08), transparent 34%),
+    radial-gradient(circle at 80% 15%, rgba(124, 58, 237, 0.07), transparent 26%),
+    linear-gradient(to bottom, #050505, #0a0a0f 44%, #050505 100%);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-dm-sans), Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.85);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+code, pre, kbd, samp {
+  font-family: var(--font-space-mono), monospace;
+}
+
+section {
+  scroll-margin-top: 6rem;
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.26);
+  color: #f8fafc;
+}
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
 }

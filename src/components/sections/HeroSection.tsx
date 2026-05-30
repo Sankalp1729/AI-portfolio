@@ -65,10 +65,7 @@ export default function HeroSection() {
     return () => window.clearInterval(timer);
   }, []);
 
-  const letters = Array.from(displayName).map((letter, index) => ({
-    letter,
-    key: `${letter}-${index}`,
-  }));
+  const words = displayName.split(" ");
 
   return (
     <section
@@ -104,16 +101,21 @@ export default function HeroSection() {
               className="font-[family-name:var(--font-syne)] text-[48px] font-bold leading-[0.92] tracking-tight text-white sm:text-[64px] lg:text-[80px]"
               variants={nameContainerVariants}
             >
-              {letters.map(({ letter, key }) => (
-                <motion.span
-                  key={key}
-                  className={
-                    letter === " " ? "inline-block w-[0.28em]" : "inline-block"
-                  }
-                  variants={nameLetterVariants}
-                >
-                  {letter === " " ? "\u00A0" : letter}
-                </motion.span>
+              {words.map((word, wordIndex) => (
+                <span key={word} className="inline-block whitespace-nowrap">
+                  {Array.from(word).map((letter, letterIndex) => (
+                    <motion.span
+                      key={`${word}-${letter}-${letterIndex}`}
+                      className="inline-block"
+                      variants={nameLetterVariants}
+                    >
+                      {letter}
+                    </motion.span>
+                  ))}
+                  {wordIndex < words.length - 1 ? (
+                    <span aria-hidden className="inline-block w-[0.28em]" />
+                  ) : null}
+                </span>
               ))}
             </motion.h1>
 

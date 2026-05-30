@@ -54,67 +54,63 @@ const icons = {
 } as const;
 
 type RecognitionCardProps = {
-  id: string;
-    achievement: AchievementItem;
-    onOpen: (achievement: AchievementItem) => void;
-  };
+  achievement: AchievementItem;
+  onOpen: (achievement: AchievementItem) => void;
+};
 
-  function RecognitionCard({ achievement, onOpen }: RecognitionCardProps) {
-    const {
-      title,
-      organization,
-      year,
-      month,
-      description,
-      icon,
-    } = achievement;
+function RecognitionCard({ achievement, onOpen }: RecognitionCardProps) {
+  const { title, organization, year, month, description, icon } = achievement;
 
-    return (
-      <motion.article
-        data-hoverable="true"
-        className="relative flex h-full flex-col overflow-hidden rounded-[26px] border border-[var(--border)] bg-[var(--bg-card)] p-6 transition hover:-translate-y-1 hover:border-blue-400/35 hover:shadow-[0_0_32px_rgba(59,130,246,0.18)]"
-        variants={cardLift}
-        whileHover={{ y: -4 }}
-      >
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--border)] bg-black/25 shadow-[0_0_24px_rgba(59,130,246,0.15)]">
-            {icons[icon]}
-          </div>
-          <span className="rounded-full border border-[var(--border)] bg-black/30 px-3 py-1 text-[10px] uppercase tracking-[0.26em] text-[var(--text-muted)]">
-            {month} {year}
-          </span>
+  return (
+    <motion.article
+      data-hoverable="true"
+      className="relative flex h-full flex-col overflow-hidden rounded-[26px] border border-[var(--border)] bg-[var(--bg-card)] p-6 transition hover:-translate-y-1 hover:border-blue-400/35 hover:shadow-[0_0_32px_rgba(59,130,246,0.18)]"
+      variants={cardLift}
+      whileHover={{ y: -4 }}
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--border)] bg-black/25 shadow-[0_0_24px_rgba(59,130,246,0.15)]">
+          {icons[icon]}
         </div>
+        <span className="rounded-full border border-[var(--border)] bg-black/30 px-3 py-1 text-[10px] uppercase tracking-[0.26em] text-[var(--text-muted)]">
+          {month} {year}
+        </span>
+      </div>
 
-        <h3 className="mt-5 font-[family-name:var(--font-syne)] text-xl font-bold sm:text-2xl">
-          {title}
-        </h3>
+      <h3 className="mt-5 font-[family-name:var(--font-syne)] text-xl font-bold sm:text-2xl">
+        {title}
+      </h3>
 
-        <div className="mt-3 inline-flex w-fit rounded-full border border-blue-400/25 bg-blue-500/10 px-3 py-1.5 text-[10px] uppercase tracking-[0.24em] text-blue-100">
-          {organization}
-        </div>
+      <div className="mt-3 inline-flex w-fit rounded-full border border-blue-400/25 bg-blue-500/10 px-3 py-1.5 text-[10px] uppercase tracking-[0.24em] text-blue-100">
+        {organization}
+      </div>
 
-        <p className="mt-4 overflow-hidden text-sm leading-7 text-[var(--text-secondary)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
-          {description}
-        </p>
+      <p className="mt-4 overflow-hidden text-sm leading-7 text-[var(--text-secondary)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
+        {description}
+      </p>
 
-        <div className="mt-auto pt-6">
-          <button
-            type="button"
-            onClick={() => onOpen(achievement)}
-            data-hoverable="true"
-            className="text-xs uppercase tracking-[0.28em] text-[var(--text-secondary)] transition hover:text-[var(--accent-blue)]"
-          >
-            View Certificate →
-          </button>
-        </div>
-      </motion.article>
-    );
-  }
+      <div className="mt-auto pt-6">
+        <button
+          type="button"
+          onClick={() => onOpen(achievement)}
+          data-hoverable="true"
+          className="text-xs uppercase tracking-[0.28em] text-[var(--text-secondary)] transition hover:text-[var(--accent-blue)]"
+        >
+          View Certificate →
+        </button>
+      </div>
+    </motion.article>
+  );
+}
+
+export default function CertificationsSection() {
+  const [selectedAchievement, setSelectedAchievement] =
+    useState<AchievementItem | null>(null);
+
+  return (
+    <section
       id="achievements"
       aria-label="Certifications and recognition"
-    const [selectedAchievement, setSelectedAchievement] =
-      useState<AchievementItem | null>(null);
-
       className="relative overflow-hidden bg-[var(--bg-base)] px-6 py-24 text-[var(--text-primary)] sm:px-10 lg:px-16"
     >
       <div

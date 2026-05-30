@@ -73,6 +73,7 @@ function ContactRow({
   label,
   value,
   href,
+  download,
   onCopy,
 }: {
   icon: "mail" | "linkedin" | "github" | "pin" | "document";

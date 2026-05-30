@@ -7,8 +7,13 @@ import ProfileImage from "@/components/ui/ProfileImage";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 const STORAGE_KEY = "sp-avatar-intro-seen";
-const INTRO_TEXT =
-  "Hi, I'm Sankalp. I build AI systems, intelligent products, and multi-agent architectures. Explore my work.";
+const INTRO_TEXT = `Welcome.
+
+I'm Sankalp — an AI Engineer building intelligent systems, multi-agent architectures, and production-ready AI products.
+
+I create technology that doesn't just process data — it understands, reasons, and acts.
+
+Let's explore what I've built.`;
 const TYPING_DELAY_MS = 40;
 const AVATAR_FADE_MS = 1000;
 const POST_TYPE_WAIT_MS = 1500;
@@ -134,7 +139,7 @@ export default function AvatarIntro() {
     "checking" | "available" | "missing"
   >("checking");
   const [introVideoSrc, setIntroVideoSrc] = useState<string | null>(null);
-  const [isOrbPaused, setIsOrbPaused] = useState(false);
+  const [isOrbPaused, setIsOrbPaused] = useState(true);
   const [isAvatarSettled, setIsAvatarSettled] = useState(false);
 
   const finishIntro = useCallback(() => {

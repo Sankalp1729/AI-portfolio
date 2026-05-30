@@ -37,4 +37,4 @@ export const aboutStats = [
   { value: 88, suffix: "%+", label: "Classification accuracy" },
   { value: 4, suffix: "", label: "Deployed AI systems" },
   { value: 2026, suffix: "", label: "Graduating" },
-] as const;
+];

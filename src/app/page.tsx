@@ -1,11 +1,11 @@
 import AboutSection from "@/components/sections/AboutSection";
-import Certifications from "@/components/sections/Certifications";
-import Contact from "@/components/sections/Contact";
-import Experience from "@/components/sections/Experience";
+import CertificationsSection from "@/components/sections/CertificationsSection";
+import ContactSection from "@/components/sections/ContactSection";
+import ExperienceSection from "@/components/sections/ExperienceSection";
 import HeroSection from "@/components/sections/HeroSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
-import Skills from "@/components/sections/Skills";
-import Timeline from "@/components/sections/Timeline";
+import SkillsSection from "@/components/sections/SkillsSection";
+import TimelineSection from "@/components/sections/TimelineSection";
 import Cursor from "@/components/ui/Cursor";
 
 export default function Home() {
@@ -16,11 +16,11 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <ProjectsSection />
-      <Experience />
-      <Skills />
-      <Timeline />
-      <Certifications />
-      <Contact />
+      <ExperienceSection />
+      <SkillsSection />
+      <TimelineSection />
+      <CertificationsSection />
+      <ContactSection />
     </main>
   );
 }

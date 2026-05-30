@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView } from "framer-motion";
 
 interface CounterProps {
   target: number;
@@ -19,51 +18,48 @@ export default function Counter({
   className,
 }: CounterProps) {
   const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.2 });
   const started = useRef(false);
+  const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const mountTimer = window.setTimeout(() => {
-      if (!started.current) {
-        started.current = true;
-        animateTo(target, duration);
-      }
-    }, 400);
+    const el = ref.current;
+    if (!el) return;
 
-    const fallback = window.setTimeout(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !started.current) {
+          started.current = true;
+          animate();
+        }
+      },
+      { threshold: 0, rootMargin: "0px 0px -50px 0px" },
+    );
+
+    observer.observe(el);
+
+    const fallback = setTimeout(() => {
       if (!started.current) {
         started.current = true;
-        animateTo(target, duration);
+        animate();
       }
-    }, 2500);
+    }, 1500);
 
     return () => {
-      window.clearTimeout(mountTimer);
-      window.clearTimeout(fallback);
+      observer.disconnect();
+      clearTimeout(fallback);
     };
-  }, [target, duration]);
+  }, [target]);
 
-  useEffect(() => {
-    if (inView && !started.current) {
-      started.current = true;
-      animateTo(target, duration);
-    }
-  }, [inView, target, duration]);
-
-  function animateTo(end: number, dur: number) {
+  function animate() {
     const startTime = performance.now();
-    const startVal = 0;
 
     function step(now: number) {
       const elapsed = now - startTime;
-      const progress = Math.min(elapsed / dur, 1);
+      const progress = Math.min(elapsed / duration, 1);
       const eased = 1 - (1 - progress) ** 3;
-      setCount(Math.floor(startVal + (end - startVal) * eased));
-
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      }
+      setCount(Math.floor(target * eased));
+      if (progress < 1) requestAnimationFrame(step);
+      else setCount(target);
     }
 
     requestAnimationFrame(step);

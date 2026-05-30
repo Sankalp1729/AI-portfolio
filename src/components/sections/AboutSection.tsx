@@ -113,7 +113,7 @@ export default function AboutSection() {
                 whileHover={{ y: -4 }}
               >
                 <div className="font-[family-name:var(--font-syne)] text-3xl font-bold text-white">
-                  <Counter target={stat.value} suffix={stat.suffix} />
+                  <Counter target={Number(stat.value)} suffix={String(stat.suffix)} />
                 </div>
                 <div className="mt-2 text-xs uppercase tracking-[0.3em] text-[var(--text-muted)]">
                   {stat.label}

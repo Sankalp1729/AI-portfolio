@@ -14,6 +14,7 @@ type FormState = {
 };
 
 const CONTACT_EMAIL = "pingalwadsankalp1729@gmail.com";
+const FORMSPREE_ENDPOINT = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
 
 function ContactIcon({ icon }: { icon: "mail" | "linkedin" | "github" | "pin" }) {
   const paths = {
@@ -105,7 +106,9 @@ function ContactRow({
 export default function ContactSection() {
   const prefersReducedMotion = usePrefersReducedMotion();
   const [copied, setCopied] = useState(false);
-  const [submitState, setSubmitState] = useState<"idle" | "success">("idle");
+  const [submitState, setSubmitState] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
   const [form, setForm] = useState<FormState>({
     name: "",
     email: "",
@@ -119,8 +122,43 @@ export default function ContactSection() {
     window.setTimeout(() => setCopied(false), 1600);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (submitState === "submitting") {
+      return;
+    }
+
+    if (FORMSPREE_ENDPOINT) {
+      setSubmitState("submitting");
+
+      try {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            subject: form.subject,
+            message: form.message,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Form submission failed");
+        }
+
+        setSubmitState("success");
+        setForm({ name: "", email: "", subject: "", message: "" });
+        return;
+      } catch {
+        setSubmitState("error");
+        return;
+      }
+    }
 
     const body = [
       `Name: ${form.name}`,
@@ -255,11 +293,14 @@ export default function ContactSection() {
 
             <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-[var(--text-muted)]">
-                Opens your email client with a pre-filled message.
+                {FORMSPREE_ENDPOINT
+                  ? "Messages are sent directly to my inbox."
+                  : "Opens your email client with a pre-filled message."}
               </p>
               <motion.button
                 type="submit"
                 data-hoverable="true"
+                disabled={submitState === "submitting"}
                 className="inline-flex min-w-48 items-center justify-center rounded-full bg-[var(--accent-blue)] px-8 py-3.5 text-sm font-medium text-white shadow-[0_0_24px_rgba(59,130,246,0.22)] transition hover:bg-[var(--accent-blue-glow)]"
                 whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
                 whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
@@ -282,7 +323,16 @@ export default function ContactSection() {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      Ready to send!
+                      Message sent!
+                    </motion.span>
+                  ) : submitState === "submitting" ? (
+                    <motion.span
+                      key="submitting"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                    >
+                      Sending...
                     </motion.span>
                   ) : (
                     <motion.span
@@ -297,6 +347,12 @@ export default function ContactSection() {
                 </AnimatePresence>
               </motion.button>
             </div>
+
+            {submitState === "error" ? (
+              <p className="mt-4 text-sm text-rose-300">
+                Something went wrong. Email me at {CONTACT_EMAIL}
+              </p>
+            ) : null}
           </motion.form>
         </div>
 

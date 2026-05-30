@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
 import Counter from "@/components/animations/Counter";
 import { aboutStats } from "@/data/site";
 import { cardLift, fadeUp, sectionStagger, viewportReveal } from "@/lib/animations";
@@ -22,6 +23,8 @@ const sectionVariants = {
 } as const;
 
 export default function AboutSection() {
+  const [profileSrc, setProfileSrc] = useState("/images/profile.jpg");
+
   return (
     <section
       id="about"
@@ -45,12 +48,13 @@ export default function AboutSection() {
           <div className="overflow-hidden rounded-[36px] border border-[var(--accent-blue)]/30 bg-[var(--glass-bg)] p-4 shadow-[0_0_42px_rgba(59,130,246,0.18)] backdrop-blur-2xl">
             <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-black/25">
               <Image
-                src="/images/profile.svg"
+                src={profileSrc}
                 alt="Sankalp Pingalwad — AI Engineer"
                 width={1200}
                 height={1400}
                 className="h-full w-full object-cover object-top"
                 priority
+                onError={() => setProfileSrc("/images/profile.svg")}
               />
               <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(0,0,0,0.45))]" />
               <span className="absolute left-4 top-4 rounded-full border border-blue-400/35 bg-[rgba(5,5,5,0.65)] px-4 py-2 text-xs uppercase tracking-[0.32em] text-white/85 backdrop-blur-xl">

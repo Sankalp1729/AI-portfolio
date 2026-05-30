@@ -6,7 +6,7 @@ export const siteConfig: SiteConfig = {
   description:
     "Final-year AI Engineering student building production RAG systems, multi-agent architectures, and deployed AI products. Based in Mumbai.",
   home: "/",
-  resume: "/assets/resume.pdf",
+  resume: "/resume/resume.pdf",
   github: "https://github.com/Sankalp1729",
   linkedin: "https://www.linkedin.com/in/pingalwadsankalp",
   email: "mailto:pingalwadsankalp1729@gmail.com",

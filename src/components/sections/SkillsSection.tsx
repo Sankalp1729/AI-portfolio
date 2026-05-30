@@ -54,7 +54,7 @@ function SkillChip({ skill, index }: { skill: string; index: number }) {
 
 export default function SkillsSection() {
   const prefersReducedMotion = usePrefersReducedMotion();
-  const [activeTab, setActiveTab] = useState<TabKey>("Languages");
+  const [activeTab, setActiveTab] = useState<TabKey>("LLMs");
 
   const activeCategory = useMemo(
     () =>
@@ -92,8 +92,7 @@ export default function SkillsSection() {
             className="max-w-2xl text-lg text-[var(--text-secondary)]"
             variants={fadeUp}
           >
-            A focused breakdown of the languages, models, and tools behind my
-            work.
+            Everything I use to build, train, and ship AI systems.
           </motion.p>
         </div>
 
@@ -166,13 +165,14 @@ export default function SkillsSection() {
                   {activeCategory.orbs.map((orb) => (
                     <motion.div
                       key={`${activeCategory.label}-${orb.label}`}
-                      className="absolute flex items-center justify-center rounded-full border border-white/10 bg-[linear-gradient(180deg,rgba(59,130,246,0.22),rgba(124,58,237,0.12))] text-xs font-semibold text-white shadow-[0_0_30px_rgba(59,130,246,0.2)]"
+                      className="absolute rounded-full border border-white/10 bg-[linear-gradient(180deg,rgba(59,130,246,0.22),rgba(124,58,237,0.12))] shadow-[0_0_30px_rgba(59,130,246,0.2)]"
                       style={{
                         left: `${orb.x}%`,
                         top: `${orb.y}%`,
                         width: orb.size,
                         height: orb.size,
                       }}
+                      aria-hidden
                       initial={
                         prefersReducedMotion
                           ? { opacity: 1, scale: 1 }
@@ -194,9 +194,7 @@ export default function SkillsSection() {
                           ease: "easeInOut",
                         },
                       }}
-                    >
-                      {orb.label}
-                    </motion.div>
+                    />
                   ))}
                 </div>
               </div>

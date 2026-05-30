@@ -20,7 +20,6 @@ export default function Counter({
   const [count, setCount] = useState(0);
   const started = useRef(false);
   const ref = useRef<HTMLSpanElement>(null);
-  const displaySuffix = count > 0 ? suffix : "";
 
   useEffect(() => {
     const el = ref.current;
@@ -33,7 +32,7 @@ export default function Counter({
           animate();
         }
       },
-      { threshold: 0, rootMargin: "0px 0px -50px 0px" },
+      { threshold: 0 },
     );
 
     observer.observe(el);
@@ -55,11 +54,10 @@ export default function Counter({
     const startTime = performance.now();
 
     function step(now: number) {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - (1 - progress) ** 3;
-      setCount(Math.floor(target * eased));
-      if (progress < 1) requestAnimationFrame(step);
+      const p = Math.min((now - startTime) / duration, 1);
+      const e = 1 - (1 - p) ** 3;
+      setCount(Math.floor(target * e));
+      if (p < 1) requestAnimationFrame(step);
       else setCount(target);
     }
 
@@ -70,7 +68,7 @@ export default function Counter({
     <span ref={ref} className={className}>
       {prefix}
       {count}
-      {displaySuffix}
+      {suffix}
     </span>
   );
 }

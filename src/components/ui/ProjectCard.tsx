@@ -150,8 +150,8 @@ export default function ProjectCard({
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,var(--bg-card),rgba(59,130,246,0.15))]">
-              <span className="select-none font-[family-name:var(--font-syne)] text-[5.5rem] font-bold leading-none text-white/10">
-                {number}
+              <span className="select-none font-[family-name:var(--font-syne)] text-sm uppercase tracking-[0.3em] text-white/20">
+                {project.title}
               </span>
             </div>
           )}

@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import FloatingOrb from "@/components/avatar/FloatingOrb";
 import ProfileImage from "@/components/ui/ProfileImage";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -97,6 +97,17 @@ function AvatarFigure({
   isMuted,
   onToggleMuted,
 }: AvatarFigureProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = isMuted;
+      if (!isMuted) {
+        videoRef.current.play().catch(() => {});
+      }
+    }
+  }, [isMuted]);
+
   return (
     <div
       className={`relative overflow-hidden rounded-full border border-white/10 bg-[#050505] shadow-[0_0_80px_rgba(59,130,246,0.28)] ${className ?? ""}`}
@@ -105,6 +116,7 @@ function AvatarFigure({
       {introVideoSrc ? (
         <>
           <video
+            ref={videoRef}
             src={introVideoSrc}
             autoPlay
             muted={isMuted}

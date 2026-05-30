@@ -1,18 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { fadeUp, sectionStagger, viewportReveal } from "@/lib/animations";
 import { showcaseProjects } from "@/data/projects";
-import ProjectCard from "@/components/ui/ProjectCard";
+import StickyProjectStack from "@/components/sections/StickyProjectStack";
 
 export default function ProjectsSection() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  const handleToggle = (index: number) => {
-    setActiveIndex((current) => (current === index ? null : index));
-  };
-
   return (
     <section
       id="projects"
@@ -46,18 +39,9 @@ export default function ProjectsSection() {
           </motion.p>
         </div>
 
-        <div className="grid gap-5 xl:grid-cols-2">
-          {showcaseProjects.map((project, index) => (
-            <ProjectCard
-              key={project.number}
-              project={project}
-              index={index}
-              active={activeIndex === index}
-              onToggle={handleToggle}
-            />
-          ))}
-        </div>
+        <StickyProjectStack projects={showcaseProjects} />
       </motion.div>
     </section>
   );
 }
+

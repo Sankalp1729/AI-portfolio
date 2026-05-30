@@ -5,6 +5,9 @@ import Image from "next/image";
 import Counter from "@/components/animations/Counter";
 import { aboutStats } from "@/data/site";
 import { cardLift, fadeUp, sectionStagger, viewportReveal } from "@/lib/animations";
+import { useMagnet } from "@/hooks/useMagnet";
+import { useParallax } from "@/hooks/useParallax";
+import AnimatedParagraph from "@/components/animations/AnimatedParagraph";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 30, scale: 0.96 },
@@ -22,13 +25,18 @@ const sectionVariants = {
 } as const;
 
 export default function AboutSection() {
+  const { ref: parallaxRef, y: backgroundY } = useParallax(0.15);
+  const { ref: magnetRef, style: magnetStyle } = useMagnet({ strength: 0.3, padding: 80 });
+
   return (
     <section
       id="about"
+      ref={parallaxRef}
       aria-label="About Sankalp Pingalwad"
       className="relative overflow-hidden bg-[var(--bg-surface)] px-6 py-24 text-[var(--text-primary)] sm:px-10 lg:px-16"
     >
-      <div
+      <motion.div
+        style={{ y: backgroundY }}
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.1),transparent_42%)]"
         aria-hidden
       />
@@ -42,7 +50,11 @@ export default function AboutSection() {
       >
         <motion.div className="relative" variants={fadeUp}>
           <div className="absolute inset-0 -z-10 rounded-[36px] bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.14),transparent_54%)] blur-3xl" />
-          <div className="overflow-hidden rounded-[36px] border border-[var(--accent-blue)]/30 bg-[var(--glass-bg)] p-4 shadow-[0_0_42px_rgba(59,130,246,0.18)] backdrop-blur-2xl">
+          <motion.div
+            ref={magnetRef}
+            style={magnetStyle}
+            className="overflow-hidden rounded-[36px] border border-[var(--accent-blue)]/30 bg-[var(--glass-bg)] p-4 shadow-[0_0_42px_rgba(59,130,246,0.18)] backdrop-blur-2xl"
+          >
             <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-black/25">
               <div className="relative min-h-[420px] w-full">
                 <Image
@@ -66,7 +78,7 @@ export default function AboutSection() {
                 Mumbai
               </span>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
 
         <div className="space-y-8">
@@ -86,22 +98,15 @@ export default function AboutSection() {
           </div>
 
           <div className="space-y-5 text-base leading-8 text-[var(--text-secondary)] sm:text-lg">
-            <motion.p variants={fadeUp}>
-              Final-year B.E. student in Artificial Intelligence & Data Science
-              at VPPCE Mumbai, graduating 2026. I&apos;ve spent the last year
-              building and deploying real production AI systems — not toy demos.
-            </motion.p>
-            <motion.p variants={fadeUp}>
-              At Blackhole Inferverse, I contributed to a production News-AI
-              pipeline processing 500+ articles per run, achieving 88%+
-              labelling accuracy. I&apos;ve independently designed DocuMind AI and
-              MailMind AI — publicly deployed, end-to-end owned systems.
-            </motion.p>
-            <motion.p variants={fadeUp}>
-              My focus: multi-agent architectures, RAG systems, and multimodal
-              AI. I care about ownership, production readiness, and building
-              things that actually work.
-            </motion.p>
+            <AnimatedParagraph
+              text="Final-year B.E. student in Artificial Intelligence & Data Science at VPPCE Mumbai, graduating 2026. I've spent the last year building and deploying real production AI systems — not toy demos."
+            />
+            <AnimatedParagraph
+              text="At Blackhole Inferverse, I contributed to a production News-AI pipeline processing 500+ articles per run, achieving 88%+ labelling accuracy. I've independently designed DocuMind AI and MailMind AI — publicly deployed, end-to-end owned systems."
+            />
+            <AnimatedParagraph
+              text="My focus: multi-agent architectures, RAG systems, and multimodal AI. I care about ownership, production readiness, and building things that actually work."
+            />
           </div>
 
           <motion.div

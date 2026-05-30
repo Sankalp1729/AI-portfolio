@@ -4,6 +4,7 @@ import ContactSection from "@/components/sections/ContactSection";
 import ExperienceSection from "@/components/sections/ExperienceSection";
 import HeroSection from "@/components/sections/HeroSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
+import MarqueeSection from "@/components/sections/MarqueeSection";
 import SkillsSection from "@/components/sections/SkillsSection";
 import TimelineSection from "@/components/sections/TimelineSection";
 import Cursor from "@/components/ui/Cursor";
@@ -15,6 +16,7 @@ export default function Home() {
 
       <HeroSection />
       <AboutSection />
+      <MarqueeSection />
       <ProjectsSection />
       <ExperienceSection />
       <SkillsSection />

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { fadeUp } from "@/lib/animations";
 import { heroRoles } from "@/lib/data";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { useParallax } from "@/hooks/useParallax";
 
 const ParticleField = dynamic(() => import("@/components/3d/ParticleField"), {
   ssr: false,
@@ -57,6 +58,7 @@ export default function HeroSection() {
   const prefersReducedMotion = usePrefersReducedMotion();
   const [roleIndex, setRoleIndex] = useState(0);
   const activeRole = heroRoles[roleIndex] ?? heroRoles[0];
+  const { ref: parallaxRef, y: backgroundY } = useParallax(0.15);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -70,10 +72,12 @@ export default function HeroSection() {
   return (
     <section
       id="home"
+      ref={parallaxRef}
       aria-label="Hero introduction"
       className="relative min-h-screen overflow-hidden bg-[var(--bg-base)] text-[var(--text-primary)]"
     >
-      <div
+      <motion.div
+        style={{ y: backgroundY }}
         className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.14),transparent_30%),radial-gradient(circle_at_80%_30%,rgba(124,58,237,0.11),transparent_28%)]"
         aria-hidden
       />

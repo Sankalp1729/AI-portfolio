@@ -71,12 +71,20 @@ export default function ExperienceSection() {
         whileInView="visible"
         viewport={viewportReveal}
       >
-        <motion.h2
-          className="font-[family-name:var(--font-syne)] text-4xl font-bold tracking-tight sm:text-5xl"
-          variants={fadeUp}
-        >
-          Where I&apos;ve Worked
-        </motion.h2>
+        <div className="space-y-4">
+          <motion.h2
+            className="font-[family-name:var(--font-syne)] text-4xl font-bold tracking-tight sm:text-5xl"
+            variants={fadeUp}
+          >
+            Where I&apos;ve Worked
+          </motion.h2>
+          <motion.p
+            className="max-w-2xl text-lg text-[var(--text-secondary)]"
+            variants={fadeUp}
+          >
+            Six months shipping production AI. Here&apos;s what I built.
+          </motion.p>
+        </div>
 
         <motion.article
           className="grid gap-8 glass-panel p-6 lg:grid-cols-[240px_1fr] lg:p-8"

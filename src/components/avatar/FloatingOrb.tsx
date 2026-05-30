@@ -6,9 +6,14 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 type FloatingOrbProps = {
   onClick: () => void;
   layoutId?: string;
+  paused?: boolean;
 };
 
-export default function FloatingOrb({ onClick, layoutId = "avatar-orb" }: FloatingOrbProps) {
+export default function FloatingOrb({
+  onClick,
+  layoutId = "avatar-orb",
+  paused = false,
+}: FloatingOrbProps) {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   return (
@@ -24,7 +29,7 @@ export default function FloatingOrb({ onClick, layoutId = "avatar-orb" }: Floati
       aria-label="Replay avatar intro"
       initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.88 }}
       animate={
-        prefersReducedMotion
+        prefersReducedMotion || paused
           ? { opacity: 1, scale: 1 }
           : { opacity: 1, scale: [1, 1.1, 1] }
       }
@@ -39,7 +44,7 @@ export default function FloatingOrb({ onClick, layoutId = "avatar-orb" }: Floati
           : { scale: 0.94, transition: { type: "spring", stiffness: 400, damping: 25 } }
       }
       transition={
-        prefersReducedMotion
+        prefersReducedMotion || paused
           ? { type: "spring", stiffness: 400, damping: 25, duration: 0.5 }
           : { duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }
       }

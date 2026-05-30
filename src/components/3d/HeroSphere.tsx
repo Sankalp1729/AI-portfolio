@@ -6,9 +6,10 @@ import type { Group } from "three";
 
 type HeroSphereMeshProps = {
   isMobile: boolean;
+  isFrozen: boolean;
 };
 
-function HeroSphereMesh({ isMobile }: HeroSphereMeshProps) {
+function HeroSphereMesh({ isMobile, isFrozen }: HeroSphereMeshProps) {
   const groupRef = useRef<Group>(null);
   const { pointer } = useThree();
 
@@ -16,6 +17,14 @@ function HeroSphereMesh({ isMobile }: HeroSphereMeshProps) {
     const clock = state.clock.elapsedTime;
 
     if (!groupRef.current) {
+      return;
+    }
+
+    if (isFrozen) {
+      groupRef.current.rotation.y *= 0.98;
+      groupRef.current.rotation.x *= 0.98;
+      groupRef.current.position.x *= 0.92;
+      groupRef.current.position.y *= 0.92;
       return;
     }
 
@@ -61,6 +70,7 @@ function HeroSphereMesh({ isMobile }: HeroSphereMeshProps) {
 export default function HeroSphere() {
   const [isMobile, setIsMobile] = useState(false);
   const [pixelRatio, setPixelRatio] = useState(1);
+  const [isFrozen, setIsFrozen] = useState(false);
 
   useEffect(() => {
     const checkViewport = () => {
@@ -75,10 +85,15 @@ export default function HeroSphere() {
 
   const sphereSize = isMobile ? 280 : 420;
 
+  const handlePointerDown = () => {
+    setIsFrozen((current) => !current);
+  };
+
   return (
     <div
       className="mx-auto"
       style={{ width: sphereSize, height: sphereSize, maxWidth: "100%" }}
+      onPointerDown={handlePointerDown}
     >
       <Canvas
         className="h-full w-full"
@@ -87,7 +102,7 @@ export default function HeroSphere() {
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       >
         <ambientLight intensity={0.1} />
-        <HeroSphereMesh isMobile={isMobile} />
+        <HeroSphereMesh isMobile={isMobile} isFrozen={isFrozen} />
       </Canvas>
     </div>
   );

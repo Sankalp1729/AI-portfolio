@@ -74,12 +74,21 @@ type AvatarFigureProps = {
   className?: string;
   hasIntroVideo: boolean;
   onVideoEnd: () => void;
+  isSettled: boolean;
+  onToggleSettled: () => void;
 };
 
-function AvatarFigure({ className, hasIntroVideo, onVideoEnd }: AvatarFigureProps) {
+function AvatarFigure({
+  className,
+  hasIntroVideo,
+  onVideoEnd,
+  isSettled,
+  onToggleSettled,
+}: AvatarFigureProps) {
   return (
     <div
       className={`relative overflow-hidden rounded-full border border-white/10 bg-[#050505] shadow-[0_0_80px_rgba(59,130,246,0.28)] ${className ?? ""}`}
+      onPointerDown={onToggleSettled}
     >
       {hasIntroVideo ? (
         <video
@@ -100,9 +109,11 @@ function AvatarFigure({ className, hasIntroVideo, onVideoEnd }: AvatarFigureProp
             className="h-full w-full"
           />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(59,130,246,0.3),transparent_55%)]" />
-          <div className="pointer-events-none absolute inset-0 mix-blend-screen">
-            <div className="hologram-scanline absolute left-0 top-0 h-[28%] w-full bg-[linear-gradient(180deg,rgba(59,130,246,0)_0%,rgba(96,165,250,0.4)_50%,rgba(59,130,246,0)_100%)]" />
-          </div>
+          {isSettled ? null : (
+            <div className="pointer-events-none absolute inset-0 mix-blend-screen">
+              <div className="hologram-scanline absolute left-0 top-0 h-[28%] w-full bg-[linear-gradient(180deg,rgba(59,130,246,0)_0%,rgba(96,165,250,0.4)_50%,rgba(59,130,246,0)_100%)]" />
+            </div>
+          )}
         </>
       )}
       <div className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-white/10" />
@@ -119,6 +130,8 @@ export default function AvatarIntro() {
   const [introVideoStatus, setIntroVideoStatus] = useState<
     "checking" | "available" | "missing"
   >("checking");
+  const [isOrbPaused, setIsOrbPaused] = useState(false);
+  const [isAvatarSettled, setIsAvatarSettled] = useState(false);
 
   const finishIntro = useCallback(() => {
     setShowIntro(false);
@@ -135,6 +148,14 @@ export default function AvatarIntro() {
     setIntroVideoStatus("checking");
     setShowIntro(true);
     setIsReplay(true);
+  }, []);
+
+  const handleOrbToggle = useCallback(() => {
+    setIsOrbPaused((current) => !current);
+  }, []);
+
+  const handleAvatarToggle = useCallback(() => {
+    setIsAvatarSettled((current) => !current);
   }, []);
 
   useEffect(() => {
@@ -258,6 +279,8 @@ export default function AvatarIntro() {
                     className="h-full w-full"
                     hasIntroVideo={introVideoStatus === "available"}
                     onVideoEnd={finishIntro}
+                    isSettled={isAvatarSettled}
+                    onToggleSettled={handleAvatarToggle}
                   />
                 </motion.div>
 
@@ -271,7 +294,7 @@ export default function AvatarIntro() {
         ) : null}
       </AnimatePresence>
 
-      {showOrb ? <FloatingOrb onClick={handleReplay} /> : null}
+      {showOrb ? <FloatingOrb onClick={handleOrbToggle} paused={isOrbPaused} /> : null}
     </LayoutGroup>
   );
 }

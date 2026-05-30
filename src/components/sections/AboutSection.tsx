@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
 import Counter from "@/components/animations/Counter";
 import { aboutStats } from "@/data/site";
 import { cardLift, fadeUp, sectionStagger, viewportReveal } from "@/lib/animations";
@@ -26,7 +27,8 @@ const sectionVariants = {
 
 export default function AboutSection() {
   const { ref: parallaxRef, y: backgroundY } = useParallax(0.15);
-  const { ref: magnetRef, style: magnetStyle } = useMagnet({ strength: 0.3, padding: 80 });
+  const { ref: magnetRef, x: magnetX, y: magnetY } = useMagnet(0.3, 80);
+  const [imageError, setImageError] = useState(false);
 
   return (
     <section
@@ -52,20 +54,32 @@ export default function AboutSection() {
           <div className="absolute inset-0 -z-10 rounded-[36px] bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.14),transparent_54%)] blur-3xl" />
           <motion.div
             ref={magnetRef}
-            style={magnetStyle}
+            style={{ x: magnetX, y: magnetY }}
             className="overflow-hidden rounded-[36px] border border-[var(--accent-blue)]/30 bg-[var(--glass-bg)] p-4 shadow-[0_0_42px_rgba(59,130,246,0.18)] backdrop-blur-2xl"
           >
             <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-black/25">
               <div className="relative min-h-[420px] w-full">
-                <Image
-                  src="/images/profile.jpg"
-                  alt="Sankalp Pingalwad - AI Engineer"
-                  fill
-                  priority
-                  className="object-cover"
-                  style={{ objectPosition: "top center" }}
-                  sizes="(max-width: 1024px) 100vw, 45vw"
-                />
+                {!imageError ? (
+                  <Image
+                    src="/images/profile.jpg"
+                    alt="Sankalp Pingalwad - AI Engineer"
+                    fill
+                    priority
+                    className="object-cover"
+                    style={{ objectPosition: "top center" }}
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                    onError={() => setImageError(true)}
+                  />
+                ) : (
+                  <div
+                    className="absolute inset-0 flex items-center justify-center bg-[linear-gradient(135deg,#0a0a1a,rgba(59,130,246,0.2))]"
+                    style={{ minHeight: "420px" }}
+                  >
+                    <span className="font-[family-name:var(--font-syne)] text-[4rem] font-bold text-[#3B82F6]">
+                      SP
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(0,0,0,0.45))]" />
               <span className="absolute left-4 top-4 rounded-full border border-blue-400/35 bg-[rgba(5,5,5,0.65)] px-4 py-2 text-xs uppercase tracking-[0.32em] text-white/85 backdrop-blur-xl">
@@ -99,12 +113,15 @@ export default function AboutSection() {
 
           <div className="space-y-5 text-base leading-8 text-[var(--text-secondary)] sm:text-lg">
             <AnimatedParagraph
+              className="text-base leading-8 text-[var(--text-secondary)] sm:text-lg"
               text="Final-year B.E. student in Artificial Intelligence & Data Science at VPPCE Mumbai, graduating 2026. I've spent the last year building and deploying real production AI systems — not toy demos."
             />
             <AnimatedParagraph
+              className="text-base leading-8 text-[var(--text-secondary)] sm:text-lg"
               text="At Blackhole Inferverse, I contributed to a production News-AI pipeline processing 500+ articles per run, achieving 88%+ labelling accuracy. I've independently designed DocuMind AI and MailMind AI — publicly deployed, end-to-end owned systems."
             />
             <AnimatedParagraph
+              className="text-base leading-8 text-[var(--text-secondary)] sm:text-lg"
               text="My focus: multi-agent architectures, RAG systems, and multimodal AI. I care about ownership, production readiness, and building things that actually work."
             />
           </div>

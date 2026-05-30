@@ -14,7 +14,7 @@ type FormState = {
 };
 
 const CONTACT_EMAIL = "pingalwadsankalp1729@gmail.com";
-const FORMSPREE_ENDPOINT = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
+const FORMSPREE_ENDPOINT = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT || "https://formspree.io/f/REPLACE_WITH_YOUR_ID";
 
 function ContactIcon({ icon }: { icon: "mail" | "linkedin" | "github" | "pin" | "document" }) {
   const paths = {
@@ -144,49 +144,27 @@ export default function ContactSection() {
       return;
     }
 
-    if (FORMSPREE_ENDPOINT) {
-      setSubmitState("submitting");
+    setSubmitState("submitting");
 
-      try {
-        const response = await fetch(FORMSPREE_ENDPOINT, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            name: form.name,
-            email: form.email,
-            subject: form.subject,
-            message: form.message,
-          }),
-        });
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(form),
+      });
 
-        if (!response.ok) {
-          throw new Error("Form submission failed");
-        }
-
-        setSubmitState("success");
-        setForm({ name: "", email: "", subject: "", message: "" });
-        return;
-      } catch {
-        setSubmitState("error");
-        return;
+      if (!response.ok) {
+        throw new Error("Form submission failed");
       }
+
+      setSubmitState("success");
+      setForm({ name: "", email: "", subject: "", message: "" });
+    } catch {
+      setSubmitState("error");
     }
-
-    const body = [
-      `Name: ${form.name}`,
-      `Email: ${form.email}`,
-      "",
-      form.message,
-    ].join("\n");
-
-    const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(form.subject || "Portfolio inquiry")}&body=${encodeURIComponent(body)}`;
-
-    window.location.href = mailto;
-    setSubmitState("success");
-    setForm({ name: "", email: "", subject: "", message: "" });
   };
 
   return (
@@ -264,117 +242,121 @@ export default function ContactSection() {
             variants={fadeUp}
             noValidate
           >
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="space-y-2 text-sm text-[var(--text-secondary)]">
-                <span>Name</span>
-                <input
-                  value={form.name}
-                  onChange={(e) => setForm((c) => ({ ...c, name: e.target.value }))}
-                  type="text"
-                  required
-                  placeholder="Your name"
-                  className="w-full rounded-2xl border border-[var(--border)] bg-black/25 px-4 py-3 outline-none transition placeholder:text-[var(--text-muted)] focus:border-blue-400/30"
-                />
-              </label>
-              <label className="space-y-2 text-sm text-[var(--text-secondary)]">
-                <span>Email</span>
-                <input
-                  value={form.email}
-                  onChange={(e) => setForm((c) => ({ ...c, email: e.target.value }))}
-                  type="email"
-                  required
-                  placeholder="you@company.com"
-                  className="w-full rounded-2xl border border-[var(--border)] bg-black/25 px-4 py-3 outline-none transition placeholder:text-[var(--text-muted)] focus:border-blue-400/30"
-                />
-              </label>
-            </div>
-            <div className="mt-4 grid gap-4">
-              <label className="space-y-2 text-sm text-[var(--text-secondary)]">
-                <span>Subject</span>
-                <input
-                  value={form.subject}
-                  onChange={(e) => setForm((c) => ({ ...c, subject: e.target.value }))}
-                  type="text"
-                  required
-                  placeholder="Project, role, or research collaboration"
-                  className="w-full rounded-2xl border border-[var(--border)] bg-black/25 px-4 py-3 outline-none transition placeholder:text-[var(--text-muted)] focus:border-blue-400/30"
-                />
-              </label>
-              <label className="space-y-2 text-sm text-[var(--text-secondary)]">
-                <span>Message</span>
-                <textarea
-                  value={form.message}
-                  onChange={(e) => setForm((c) => ({ ...c, message: e.target.value }))}
-                  rows={6}
-                  required
-                  placeholder="Tell me what you are building and what outcome matters most."
-                  className="w-full rounded-2xl border border-[var(--border)] bg-black/25 px-4 py-3 outline-none transition placeholder:text-[var(--text-muted)] focus:border-blue-400/30"
-                />
-              </label>
-            </div>
+            <AnimatePresence mode="wait">
+              {submitState === "success" ? (
+                <motion.div
+                  key="success-state"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="flex flex-col items-center justify-center py-12 text-center"
+                >
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_24px_rgba(16,185,129,0.2)]">
+                    <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" aria-hidden>
+                      <path
+                        d="M5 12.5 9.2 16.7 19 7"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="mt-6 font-[family-name:var(--font-syne)] text-2xl font-bold text-white">
+                    Message sent!
+                  </h3>
+                  <p className="mt-2 text-base text-[var(--text-secondary)]">
+                    I&apos;ll get back to you soon.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setSubmitState("idle")}
+                    className="mt-6 text-xs uppercase tracking-[0.28em] text-[var(--text-muted)] transition hover:text-[var(--accent-blue)]"
+                  >
+                    Send another message
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="form-fields"
+                  initial={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="space-y-4"
+                >
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <label className="space-y-2 text-sm text-[var(--text-secondary)]">
+                      <span>Name</span>
+                      <input
+                        value={form.name}
+                        onChange={(e) => setForm((c) => ({ ...c, name: e.target.value }))}
+                        type="text"
+                        required
+                        placeholder="Your name"
+                        className="w-full rounded-2xl border border-[var(--border)] bg-black/25 px-4 py-3 outline-none transition placeholder:text-[var(--text-muted)] focus:border-blue-400/30"
+                      />
+                    </label>
+                    <label className="space-y-2 text-sm text-[var(--text-secondary)]">
+                      <span>Email</span>
+                      <input
+                        value={form.email}
+                        onChange={(e) => setForm((c) => ({ ...c, email: e.target.value }))}
+                        type="email"
+                        required
+                        placeholder="you@company.com"
+                        className="w-full rounded-2xl border border-[var(--border)] bg-black/25 px-4 py-3 outline-none transition placeholder:text-[var(--text-muted)] focus:border-blue-400/30"
+                      />
+                    </label>
+                  </div>
+                  <div className="grid gap-4">
+                    <label className="space-y-2 text-sm text-[var(--text-secondary)]">
+                      <span>Subject</span>
+                      <input
+                        value={form.subject}
+                        onChange={(e) => setForm((c) => ({ ...c, subject: e.target.value }))}
+                        type="text"
+                        required
+                        placeholder="Project, role, or research collaboration"
+                        className="w-full rounded-2xl border border-[var(--border)] bg-black/25 px-4 py-3 outline-none transition placeholder:text-[var(--text-muted)] focus:border-blue-400/30"
+                      />
+                    </label>
+                    <label className="space-y-2 text-sm text-[var(--text-secondary)]">
+                      <span>Message</span>
+                      <textarea
+                        value={form.message}
+                        onChange={(e) => setForm((c) => ({ ...c, message: e.target.value }))}
+                        rows={6}
+                        required
+                        placeholder="Tell me what you are building and what outcome matters most."
+                        className="w-full rounded-2xl border border-[var(--border)] bg-black/25 px-4 py-3 outline-none transition placeholder:text-[var(--text-muted)] focus:border-blue-400/30"
+                      />
+                    </label>
+                  </div>
 
-            <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm text-[var(--text-muted)]">
-                {FORMSPREE_ENDPOINT
-                  ? "Messages are sent directly to my inbox."
-                  : "Opens your email client with a pre-filled message."}
-              </p>
-              <motion.button
-                type="submit"
-                data-hoverable="true"
-                disabled={submitState === "submitting"}
-                className="inline-flex min-w-48 items-center justify-center rounded-full bg-[var(--accent-blue)] px-8 py-3.5 text-sm font-medium text-white shadow-[0_0_24px_rgba(59,130,246,0.22)] transition hover:bg-[var(--accent-blue-glow)]"
-                whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
-                whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
-              >
-                <AnimatePresence mode="wait">
-                  {submitState === "success" ? (
-                    <motion.span
-                      key="success"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      className="flex items-center gap-2"
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pt-2">
+                    <p className="text-sm text-[var(--text-muted)]">
+                      Messages are sent directly to my inbox.
+                    </p>
+                    <motion.button
+                      type="submit"
+                      data-hoverable="true"
+                      disabled={submitState === "submitting"}
+                      className="inline-flex min-w-48 items-center justify-center rounded-full bg-[var(--accent-blue)] px-8 py-3.5 text-sm font-medium text-white shadow-[0_0_24px_rgba(59,130,246,0.22)] transition hover:bg-[var(--accent-blue-glow)]"
+                      whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
+                      whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
                     >
-                      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden>
-                        <path
-                          d="M5 12.5 9.2 16.7 19 7"
-                          stroke="currentColor"
-                          strokeWidth="2.3"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      Message sent!
-                    </motion.span>
-                  ) : submitState === "submitting" ? (
-                    <motion.span
-                      key="submitting"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                    >
-                      Sending...
-                    </motion.span>
-                  ) : (
-                    <motion.span
-                      key="default"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                    >
-                      Send Message →
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </motion.button>
-            </div>
+                      {submitState === "submitting" ? "Sending..." : "Send Message →"}
+                    </motion.button>
+                  </div>
 
-            {submitState === "error" ? (
-              <p className="mt-4 text-sm text-rose-300">
-                Something went wrong. Email me at {CONTACT_EMAIL}
-              </p>
-            ) : null}
+                  {submitState === "error" ? (
+                    <p className="mt-4 text-sm text-rose-300">
+                      Something went wrong. Email me directly at pingalwadsankalp1729@gmail.com
+                    </p>
+                  ) : null}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.form>
         </div>
 

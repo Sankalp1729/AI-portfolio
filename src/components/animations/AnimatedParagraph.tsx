@@ -1,64 +1,45 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
-interface AnimatedParagraphProps {
+interface Props {
   text: string;
   className?: string;
 }
 
-function CharReveal({
-  char,
-  progress,
-  range,
-}: {
-  char: string;
-  progress: MotionValue<number>;
-  range: [number, number];
-}) {
-  const opacity = useTransform(progress, range, [0.15, 1]);
-
-  return (
-    <span className="relative inline-block">
-      <span className="opacity-0 select-none pointer-events-none">{char}</span>
-      <motion.span style={{ opacity }} className="absolute top-0 left-0">
-        {char}
-      </motion.span>
-    </span>
-  );
-}
-
-export default function AnimatedParagraph({ text, className }: AnimatedParagraphProps) {
-  const containerRef = useRef<HTMLParagraphElement | null>(null);
-
+export default function AnimatedParagraph({ text, className }: Props) {
+  const ref = useRef<HTMLParagraphElement>(null);
   const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start 0.85", "end 0.3"],
+    target: ref,
+    offset: ["start 0.9", "end 0.2"],
   });
 
-  const characters = text.split("");
-  const total = characters.length;
+  const chars = text.split("");
 
   return (
-    <p ref={containerRef} className={className}>
-      {characters.map((char, index) => {
-        if (char === " ") {
-          return <span key={index}> </span>;
-        }
-
-        // Define a staggered window for this character
-        // The animation window starts at index / total and spans over a fraction
-        const start = index / total;
-        const end = Math.min(1, start + 0.1); // 10% progress window stagger
-
+    <p
+      ref={ref}
+      className={className}
+      aria-label={text}
+      style={{ position: "relative" }}
+    >
+      {chars.map((char, i) => {
+        const start = i / chars.length;
+        const end = start + 1 / chars.length + 0.1;
+        const opacity = useTransform(scrollYProgress, [start, end], [0.15, 1]);
         return (
-          <CharReveal
-            key={index}
-            char={char}
-            progress={scrollYProgress}
-            range={[start, end]}
-          />
+          <span key={i} style={{ position: "relative", display: "inline" }}>
+            <span style={{ opacity: 0, userSelect: "none" }} aria-hidden>
+              {char}
+            </span>
+            <motion.span
+              style={{ opacity, position: "absolute", left: 0, top: 0 }}
+              aria-hidden
+            >
+              {char}
+            </motion.span>
+          </span>
         );
       })}
     </p>

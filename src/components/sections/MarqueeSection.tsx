@@ -3,30 +3,49 @@
 import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { showcaseProjects } from "@/data/projects";
-import type { ShowcaseProject } from "@/types";
 
-function MarqueeTile({ project }: { project: ShowcaseProject }) {
+interface ProjectTile {
+  id: string;
+  name: string;
+}
+
+const originalProjects: ProjectTile[] = [
+  { id: "documind", name: "DocuMind AI" },
+  { id: "mailmind", name: "MailMind AI" },
+  { id: "unified-context", name: "Unified Context" },
+  { id: "emotion-recognition", name: "Emotion Recognition" },
+];
+
+function MarqueeTile({ project }: { project: ProjectTile }) {
   const [imageError, setImageError] = useState(false);
 
   return (
-    <div className="relative h-[220px] w-[340px] shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-[var(--bg-card)] shadow-lg">
+    <div
+      className="relative h-[200px] w-[320px] shrink-0 overflow-hidden rounded-[14px] border border-[rgba(255,255,255,0.06)] shadow-lg"
+      style={{
+        background: "linear-gradient(135deg, #0a0a1a, rgba(59,130,246,0.1))",
+      }}
+    >
       {!imageError ? (
         <Image
-          src={project.image}
-          alt={`${project.title} screenshot`}
+          src={`/projects/${project.id}.webp`}
+          alt={`${project.name} preview`}
           fill
-          sizes="340px"
+          loading="lazy"
           className="object-cover transition-transform duration-500 hover:scale-105"
+          sizes="320px"
           onError={() => setImageError(true)}
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,var(--bg-card),rgba(59,130,246,0.15))]">
-          <span className="select-none font-[family-name:var(--font-syne)] text-sm uppercase tracking-[0.3em] text-white/45 text-center px-4">
-            {project.title}
-          </span>
+        <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,#0a0a1a,rgba(59,130,246,0.1))] px-6 text-center text-sm uppercase tracking-[0.25em] text-[var(--text-muted)]">
+          {project.name}
         </div>
       )}
+
+      {/* Project name badge */}
+      <div className="absolute bottom-3 left-3 rounded-full bg-black/60 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.3em] text-white/70 backdrop-blur-sm">
+        {project.name}
+      </div>
     </div>
   );
 }
@@ -34,53 +53,53 @@ function MarqueeTile({ project }: { project: ShowcaseProject }) {
 export default function MarqueeSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
 
-  // Track scroll position of this section relative to viewport
+  // Track scroll of the entire section relative to viewport
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   });
 
-  // Row 1 scrolls RIGHT: -200px to 0px
-  const x1 = useTransform(scrollYProgress, [0, 1], [-200, 0]);
+  // scrollYProgress 0 -> 1 maps to:
+  // Row 1 x: "0px" -> "-300px"
+  // Row 2 x: "-300px" -> "0px"
+  const x1 = useTransform(scrollYProgress, [0, 1], ["0px", "-300px"]);
+  const x2 = useTransform(scrollYProgress, [0, 1], ["-300px", "0px"]);
 
-  // Row 2 scrolls LEFT: 0px to -200px
-  const x2 = useTransform(scrollYProgress, [0, 1], [0, -200]);
-
-  // Tripled list for seamless looping look
-  const row1Projects = [...showcaseProjects, ...showcaseProjects, ...showcaseProjects];
-  const row2Projects = [...showcaseProjects, ...showcaseProjects, ...showcaseProjects].reverse();
+  // Tripled lists for seamless visual loop
+  const row1Tiles = [...originalProjects, ...originalProjects, ...originalProjects];
+  const row2Tiles = [...originalProjects, ...originalProjects, ...originalProjects].reverse();
 
   return (
     <section
       ref={sectionRef}
-      id="marquee-work"
-      aria-label="Work showcase marquee"
-      className="relative overflow-hidden bg-[#050505] py-16 w-full"
+      id="marquee-showcase"
+      aria-label="Horizontal project showcase"
+      className="relative overflow-hidden bg-[var(--bg-base)] py-20 w-full"
     >
       <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16 mb-8">
-        <span className="text-xs uppercase tracking-[0.42em] text-[var(--text-muted)] font-semibold">
+        <span className="text-xs uppercase tracking-[0.4em] text-[var(--text-muted)] font-semibold">
           Work
         </span>
       </div>
 
-      <div className="flex flex-col gap-6 w-full overflow-hidden">
-        {/* Row 1 */}
+      <div className="flex flex-col gap-3 w-full overflow-hidden">
+        {/* Row 1: Right -> Left */}
         <motion.div
           style={{ x: x1, willChange: "transform" }}
-          className="flex gap-6 w-max whitespace-nowrap pl-4"
+          className="flex gap-3 w-fit"
         >
-          {row1Projects.map((project, idx) => (
-            <MarqueeTile key={`row1-${project.number}-${idx}`} project={project} />
+          {row1Tiles.map((project, idx) => (
+            <MarqueeTile key={`row1-${project.id}-${idx}`} project={project} />
           ))}
         </motion.div>
 
-        {/* Row 2 */}
+        {/* Row 2: Left -> Right */}
         <motion.div
           style={{ x: x2, willChange: "transform" }}
-          className="flex gap-6 w-max whitespace-nowrap pl-4"
+          className="flex gap-3 w-fit"
         >
-          {row2Projects.map((project, idx) => (
-            <MarqueeTile key={`row2-${project.number}-${idx}`} project={project} />
+          {row2Tiles.map((project, idx) => (
+            <MarqueeTile key={`row2-${project.id}-${idx}`} project={project} />
           ))}
         </motion.div>
       </div>

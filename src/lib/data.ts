@@ -282,7 +282,7 @@ export const showcaseProjects: ShowcaseProject[] = [
   },
   {
     number: "04",
-  github: "https://github.com/Sankalp1729/Multimodal-Emotion-Recognition",
+    title: "Multimodal Emotion Recognition",
     tagline: "Three-modal deep learning fusion system",
     description:
       "CNN facial expression + MFCC speech features + LSTM text sentiment fused for 6-class emotion recognition. Ablation study across early, late, and hybrid fusion strategies. Late-fusion outperformed all single-modality baselines.",
@@ -291,7 +291,7 @@ export const showcaseProjects: ShowcaseProject[] = [
     metrics: ["6-class recognition", "3 modality fusion", "Ablation tested"],
     tech: ["TensorFlow", "CNN", "LSTM", "OpenCV", "Librosa", "NLP"],
     accent: "coral",
-    github: "https://github.com/Sankalp1729",
+    github: "https://github.com/Sankalp1729/Multimodal-Emotion-Recognition",
     demo: "#",
     architectureNotes: [
       "CNN, MFCC, and LSTM branches are evaluated as separate signal streams.",

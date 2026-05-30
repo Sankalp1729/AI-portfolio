@@ -74,7 +74,7 @@ export default function Navbar() {
 
           <div className="flex items-center gap-3">
             <motion.a
-              href="/assets/resume.pdf"
+              href="/resume/resume.pdf"
               download="Sankalp_Pingalwad_Resume.pdf"
               target="_blank"
               rel="noreferrer"
@@ -133,7 +133,7 @@ export default function Navbar() {
                   </motion.a>
                 ))}
                 <a
-                  href="/assets/resume.pdf"
+                  href="/resume/resume.pdf"
                   download="Sankalp_Pingalwad_Resume.pdf"
                   target="_blank"
                   rel="noreferrer"

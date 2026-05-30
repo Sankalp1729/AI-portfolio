@@ -156,7 +156,7 @@ export default function HeroSection() {
                 View Projects →
               </a>
               <a
-                href="/assets/resume.pdf"
+                href="/resume/resume.pdf"
                 download="Sankalp_Pingalwad_Resume.pdf"
                 target="_blank"
                 rel="noreferrer"

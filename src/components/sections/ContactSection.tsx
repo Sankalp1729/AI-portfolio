@@ -252,7 +252,7 @@ export default function ContactSection() {
               icon="document"
               label="Resume"
               value="Download PDF"
-              href="/assets/resume.pdf"
+              href="/resume/resume.pdf"
               download="Sankalp_Pingalwad_Resume.pdf"
             />
             <ContactRow icon="pin" label="Location" value="Mumbai, India" />

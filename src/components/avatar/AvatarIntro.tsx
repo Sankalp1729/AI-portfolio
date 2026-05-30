@@ -13,7 +13,10 @@ const TYPING_DELAY_MS = 40;
 const AVATAR_FADE_MS = 1000;
 const POST_TYPE_WAIT_MS = 1500;
 const MORPH_DURATION_MS = 800;
-const INTRO_VIDEO_SRC = "/avatar/intro-video.webm";
+const INTRO_VIDEO_SOURCES = [
+  "/avatar/intro-video.mp4",
+  "/avatar/intro-video.webm",
+];
 
 function getMorphDelay(text: string) {
   return AVATAR_FADE_MS + text.length * TYPING_DELAY_MS + POST_TYPE_WAIT_MS;
@@ -72,7 +75,7 @@ function TypewriterText({ text, enabled }: { text: string; enabled: boolean }) {
 
 type AvatarFigureProps = {
   className?: string;
-  hasIntroVideo: boolean;
+  introVideoSrc: string | null;
   onVideoEnd: () => void;
   isSettled: boolean;
   onToggleSettled: () => void;
@@ -80,7 +83,7 @@ type AvatarFigureProps = {
 
 function AvatarFigure({
   className,
-  hasIntroVideo,
+  introVideoSrc,
   onVideoEnd,
   isSettled,
   onToggleSettled,
@@ -90,9 +93,9 @@ function AvatarFigure({
       className={`relative overflow-hidden rounded-full border border-white/10 bg-[#050505] shadow-[0_0_80px_rgba(59,130,246,0.28)] ${className ?? ""}`}
       onPointerDown={onToggleSettled}
     >
-      {hasIntroVideo ? (
+      {introVideoSrc ? (
         <video
-          src={INTRO_VIDEO_SRC}
+          src={introVideoSrc}
           autoPlay
           muted
           playsInline
@@ -130,6 +133,7 @@ export default function AvatarIntro() {
   const [introVideoStatus, setIntroVideoStatus] = useState<
     "checking" | "available" | "missing"
   >("checking");
+  const [introVideoSrc, setIntroVideoSrc] = useState<string | null>(null);
   const [isOrbPaused, setIsOrbPaused] = useState(false);
   const [isAvatarSettled, setIsAvatarSettled] = useState(false);
 
@@ -146,6 +150,7 @@ export default function AvatarIntro() {
   const handleReplay = useCallback(() => {
     setShowOrb(false);
     setIntroVideoStatus("checking");
+    setIntroVideoSrc(null);
     setShowIntro(true);
     setIsReplay(true);
   }, []);
@@ -188,22 +193,31 @@ export default function AvatarIntro() {
     const controller = new AbortController();
 
     const probeVideo = async () => {
-      try {
-        const response = await fetch(INTRO_VIDEO_SRC, {
-          method: "HEAD",
-          cache: "no-store",
-          signal: controller.signal,
-        });
+      for (const source of INTRO_VIDEO_SOURCES) {
+        try {
+          const response = await fetch(source, {
+            method: "HEAD",
+            cache: "no-store",
+            signal: controller.signal,
+          });
 
-        if (cancelled) {
-          return;
-        }
+          if (cancelled) {
+            return;
+          }
 
-        setIntroVideoStatus(response.ok ? "available" : "missing");
-      } catch {
-        if (!cancelled) {
-          setIntroVideoStatus("missing");
+          if (response.ok) {
+            setIntroVideoSrc(source);
+            setIntroVideoStatus("available");
+            return;
+          }
+        } catch {
+          // Try the next available source.
         }
+      }
+
+      if (!cancelled) {
+        setIntroVideoSrc(null);
+        setIntroVideoStatus("missing");
       }
     };
 
@@ -277,7 +291,7 @@ export default function AvatarIntro() {
                 >
                   <AvatarFigure
                     className="h-full w-full"
-                    hasIntroVideo={introVideoStatus === "available"}
+                    introVideoSrc={introVideoSrc}
                     onVideoEnd={finishIntro}
                     isSettled={isAvatarSettled}
                     onToggleSettled={handleAvatarToggle}

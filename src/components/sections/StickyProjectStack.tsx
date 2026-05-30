@@ -22,14 +22,18 @@ export default function StickyProjectStack({ projects }: StickyProjectStackProps
     offset: ["start start", "end end"],
   });
 
+  const totalCards = projects.length;
+
   return (
-    <div ref={containerRef} className="relative flex flex-col gap-0">
+    <div
+      ref={containerRef}
+      className="relative flex flex-col gap-0"
+      style={{ paddingBottom: "5rem" }}
+    >
       {projects.map((project, index) => {
-        const targetScale = 0.88 + (index / projects.length) * 0.12;
-        
-        // Scale formula: card scales down from 1.0 to its targetScale starting from its sticky point
-        // Card starts scaling down when scroll progress reaches its starting ratio index / N
-        const startProgress = index / projects.length;
+        // targetScale = 1 - (n - 1 - i) * 0.04
+        const targetScale = 1 - (totalCards - 1 - index) * 0.04;
+        const startProgress = index / totalCards;
         const scale = useTransform(
           scrollYProgress,
           [startProgress, 1],
@@ -39,13 +43,19 @@ export default function StickyProjectStack({ projects }: StickyProjectStackProps
         return (
           <div
             key={project.number}
-            className="sticky top-[80px] flex h-[100vh] items-center justify-center"
+            className="sticky h-[100vh] w-full flex items-start justify-center"
+            style={{
+              position: "sticky",
+              top: "80px",
+              paddingTop: `${index * 24}px`,
+            }}
           >
             <motion.div
               style={{
                 scale,
                 transformOrigin: "top center",
-                top: `${index * 24}px`,
+                boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+                borderRadius: "30px",
               }}
               className="relative w-full max-w-5xl px-4"
             >

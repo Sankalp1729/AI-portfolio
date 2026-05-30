@@ -86,6 +86,7 @@ type AvatarFigureProps = {
   onToggleSettled: () => void;
   isMuted: boolean;
   onToggleMuted: () => void;
+  hasInteracted: boolean;
 };
 
 function AvatarFigure({
@@ -96,17 +97,20 @@ function AvatarFigure({
   onToggleSettled,
   isMuted,
   onToggleMuted,
+  hasInteracted,
 }: AvatarFigureProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.muted = isMuted;
-      if (!isMuted) {
+      if (!isMuted && hasInteracted) {
         videoRef.current.play().catch(() => {});
+      } else {
+        videoRef.current.pause();
       }
     }
-  }, [isMuted]);
+  }, [isMuted, hasInteracted]);
 
   return (
     <div
@@ -118,7 +122,7 @@ function AvatarFigure({
           <video
             ref={videoRef}
             src={introVideoSrc}
-            autoPlay
+            autoPlay={hasInteracted}
             muted={isMuted}
             playsInline
             preload="auto"
@@ -160,6 +164,7 @@ export default function AvatarIntro() {
   const [isOrbPaused, setIsOrbPaused] = useState(true);
   const [isAvatarSettled, setIsAvatarSettled] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   const finishIntro = useCallback(() => {
     setShowIntro(false);
@@ -177,7 +182,8 @@ export default function AvatarIntro() {
     setIntroVideoSrc("/avatar/intro-video.mp4?v=2");
     setShowIntro(true);
     setIsReplay(true);
-    setIsMuted(true);
+    setIsMuted(false);
+    setHasInteracted(true);
   }, []);
 
   const handleOrbToggle = useCallback(() => {
@@ -257,8 +263,6 @@ export default function AvatarIntro() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-            >
-              Skip Intro →
             </motion.button>
 
             <div className="absolute inset-0 flex items-center justify-center px-6">
@@ -281,56 +285,63 @@ export default function AvatarIntro() {
                     onToggleSettled={handleAvatarToggle}
                     isMuted={isMuted}
                     onToggleMuted={handleMuteToggle}
+                    hasInteracted={hasInteracted}
                   />
-
-                  {/* Floating unmute button outside the clipped circle with premium pulse glow */}
-                  {introVideoSrc ? (
-                    <motion.button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleMuteToggle();
-                      }}
-                      onPointerDown={(e) => e.stopPropagation()}
-                      onTouchStart={(e) => e.stopPropagation()}
-                      className="absolute bottom-2 right-2 z-[90] flex h-12 w-12 items-center justify-center rounded-full border border-blue-400/40 bg-[rgba(5,5,5,0.85)] text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] backdrop-blur-xl transition hover:scale-110 active:scale-95 cursor-pointer"
-                      animate={isMuted ? {
-                        scale: [1, 1.08, 1],
-                        boxShadow: [
-                          "0 0 12px rgba(59,130,246,0.25)",
-                          "0 0 24px rgba(59,130,246,0.6)",
-                          "0 0 12px rgba(59,130,246,0.25)"
-                        ]
-                      } : { scale: 1 }}
-                      transition={{
-                        repeat: Number.POSITIVE_INFINITY,
-                        duration: 2,
-                        ease: "easeInOut"
-                      }}
-                      aria-label={isMuted ? "Unmute audio" : "Mute audio"}
-                    >
-                      {isMuted ? (
-                        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M11 5L6 9H2v6h4l5 4V5z" />
-                          <line x1="23" y1="9" x2="17" y2="15" />
-                          <line x1="17" y1="9" x2="23" y2="15" />
-                        </svg>
-                      ) : (
-                        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M11 5L6 9H2v6h4l5 4V5z" />
-                          <path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14" />
-                        </svg>
-                      )}
-                    </motion.button>
-                  ) : null}
                 </motion.div>
 
                 <TypewriterText
                   text={INTRO_TEXT}
-                  enabled={showIntro && !prefersReducedMotion}
+                  enabled={showIntro && !prefersReducedMotion && hasInteracted}
                 />
               </div>
             </div>
+
+            {/* Premium centered glassmorphic Enter Portfolio Experience splash overlay */}
+            <AnimatePresence>
+              {!hasInteracted ? (
+                <motion.div
+                  key="enter-experience-overlay"
+                  className="absolute inset-0 z-[100] flex flex-col items-center justify-center bg-[#050505] px-6 text-center"
+                  initial={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                >
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.12),transparent_45%)]" />
+                  
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.1 }}
+                    className="relative z-10 space-y-6 max-w-md"
+                  >
+                    <span className="text-xs uppercase tracking-[0.45em] text-[var(--accent-blue)] font-semibold block">
+                      AI Portfolio Experience
+                    </span>
+                    <h1 className="font-[family-name:var(--font-syne)] text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+                      Sankalp Pingalwad
+                    </h1>
+                    <p className="text-sm leading-relaxed text-[var(--text-secondary)] sm:text-base">
+                      Interactive 3D showcases, autonomous multi-agent priorities, and production-ready RAG deployments.
+                    </p>
+                    
+                    <div className="pt-4">
+                      <motion.button
+                        type="button"
+                        onClick={() => {
+                          setHasInteracted(true);
+                          setIsMuted(false);
+                        }}
+                        className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--accent-blue)_0%,var(--accent-purple)_100%)] px-10 py-4 text-xs font-bold uppercase tracking-[0.32em] text-white shadow-[0_0_30px_rgba(59,130,246,0.4)] transition hover:scale-105 active:scale-95 cursor-pointer"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        Enter Portfolio
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
           </motion.div>
         ) : null}
       </AnimatePresence>

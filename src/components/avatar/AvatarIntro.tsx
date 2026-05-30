@@ -263,6 +263,8 @@ export default function AvatarIntro() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
+            >
+              Skip Intro →
             </motion.button>
 
             <div className="absolute inset-0 flex items-center justify-center px-6">

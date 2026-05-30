@@ -134,7 +134,7 @@ export default function ExperienceSection() {
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               <div className="glass-panel p-4">
                 <div className="font-[family-name:var(--font-syne)] text-2xl font-bold">
-                  <Counter value={500} suffix="+" />
+                  <Counter target={500} suffix="+" />
                 </div>
                 <div className="mt-2 text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">
                   Articles processed

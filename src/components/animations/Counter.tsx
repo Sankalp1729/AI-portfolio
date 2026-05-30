@@ -19,9 +19,22 @@ export default function Counter({
   className,
 }: CounterProps) {
   const prefersReducedMotion = usePrefersReducedMotion();
-  const ref = useRef<HTMLSpanElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.45 });
   const [current, setCurrent] = useState(prefersReducedMotion ? value : 0);
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setCurrent(value);
+      return;
+    }
+
+    const fallbackTimer = window.setTimeout(() => {
+      setCurrent(value);
+    }, 2000);
+
+    return () => window.clearTimeout(fallbackTimer);
+  }, [prefersReducedMotion, value]);
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -51,9 +64,9 @@ export default function Counter({
   }, [duration, isInView, prefersReducedMotion, value]);
 
   return (
-    <span ref={ref} className={className}>
+    <div ref={ref} className={className}>
       {current}
       {suffix}
-    </span>
+    </div>
   );
 }

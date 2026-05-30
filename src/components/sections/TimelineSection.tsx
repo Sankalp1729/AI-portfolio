@@ -40,12 +40,20 @@ export default function TimelineSection() {
         whileInView="visible"
         viewport={viewportReveal}
       >
-        <motion.h2
-          className="font-[family-name:var(--font-syne)] text-4xl font-bold tracking-tight sm:text-5xl"
-          variants={fadeUp}
-        >
-          The Journey
-        </motion.h2>
+        <div className="space-y-4">
+          <motion.h2
+            className="font-[family-name:var(--font-syne)] text-4xl font-bold tracking-tight sm:text-5xl"
+            variants={fadeUp}
+          >
+            The Journey
+          </motion.h2>
+          <motion.p
+            className="max-w-2xl text-lg text-[var(--text-secondary)]"
+            variants={fadeUp}
+          >
+            From first Python script to production AI systems.
+          </motion.p>
+        </div>
 
         <div className="relative pl-5 sm:pl-8">
           <div

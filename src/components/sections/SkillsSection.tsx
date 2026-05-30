@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
-import { getSkillIcon, skillCategories } from "@/data/skills";
+import { skillCategories } from "@/data/skills";
 import { fadeUp, sectionStagger, viewportReveal } from "@/lib/animations";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
@@ -35,11 +35,9 @@ const tabLabels: Record<TabKey, string> = {
 };
 
 function SkillChip({ skill, index }: { skill: string; index: number }) {
-  const icon = getSkillIcon(skill);
-
   return (
     <motion.div
-      className="flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-black/25 px-4 py-3 text-sm text-[var(--text-primary)]"
+      className="rounded-2xl border border-[var(--border)] bg-black/25 px-4 py-3 text-sm text-[var(--text-primary)]"
       initial={{ opacity: 0, y: 16, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{
@@ -49,9 +47,6 @@ function SkillChip({ skill, index }: { skill: string; index: number }) {
         delay: index * 0.04,
       }}
     >
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-blue-400/20 bg-blue-500/10 font-[family-name:var(--font-space-mono)] text-[10px] font-bold text-blue-200">
-        {icon}
-      </span>
       <span>{skill}</span>
     </motion.div>
   );
@@ -86,12 +81,20 @@ export default function SkillsSection() {
         whileInView="visible"
         viewport={viewportReveal}
       >
-        <motion.h2
-          className="font-[family-name:var(--font-syne)] text-4xl font-bold tracking-tight sm:text-5xl"
-          variants={fadeUp}
-        >
-          Technical Arsenal
-        </motion.h2>
+        <div className="space-y-4">
+          <motion.h2
+            className="font-[family-name:var(--font-syne)] text-4xl font-bold tracking-tight sm:text-5xl"
+            variants={fadeUp}
+          >
+            Technical Arsenal
+          </motion.h2>
+          <motion.p
+            className="max-w-2xl text-lg text-[var(--text-secondary)]"
+            variants={fadeUp}
+          >
+            Everything I use to build, train, and ship AI systems.
+          </motion.p>
+        </div>
 
         <div className="grid gap-8 lg:grid-cols-[0.86fr_1.14fr]">
           <div className="glass-panel p-4">

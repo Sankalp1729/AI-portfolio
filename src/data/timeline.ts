@@ -49,7 +49,7 @@ export const recognitionItems: CertificationShowcaseItem[] = [
   {
     issuer: "Smart India Hackathon 2025",
     title: "Internal Qualifier — Fasal Rakshak AI",
-    date: "December 2025",
+    date: "2025",
     org: "VPP College of Engineering",
     icon: "trophy",
   },

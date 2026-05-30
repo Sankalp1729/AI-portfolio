@@ -123,10 +123,7 @@ export default function ProjectCard({
       </span>
 
       <div className="relative">
-        <div className="text-xs uppercase tracking-[0.34em] text-[var(--text-muted)]">
-          {number}
-        </div>
-        <h3 className="mt-3 font-[family-name:var(--font-syne)] text-[22px] font-semibold leading-tight text-white">
+        <h3 className="font-[family-name:var(--font-syne)] text-[22px] font-semibold leading-tight text-white">
           {project.title}
         </h3>
       </div>

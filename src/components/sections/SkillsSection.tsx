@@ -194,7 +194,11 @@ export default function SkillsSection() {
                           ease: "easeInOut",
                         },
                       }}
-                    />
+                    >
+                      <span className="flex h-full w-full items-center justify-center text-[8px] font-semibold uppercase tracking-[0.18em] text-white/75">
+                        {orb.label}
+                      </span>
+                    </motion.div>
                   ))}
                 </div>
               </div>

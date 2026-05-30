@@ -126,30 +126,6 @@ function AvatarFigure({
             onEnded={onVideoEnd}
             className="h-full w-full object-cover"
           />
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleMuted();
-            }}
-            onPointerDown={(e) => e.stopPropagation()}
-            onTouchStart={(e) => e.stopPropagation()}
-            className="absolute bottom-4 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-blue-400/30 bg-[rgba(5,5,5,0.72)] text-white/90 shadow-[0_0_12px_rgba(59,130,246,0.25)] backdrop-blur-xl transition hover:scale-105"
-            aria-label={isMuted ? "Unmute audio" : "Mute audio"}
-          >
-            {isMuted ? (
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M11 5L6 9H2v6h4l5 4V5z" />
-                <line x1="23" y1="9" x2="17" y2="15" />
-                <line x1="17" y1="9" x2="23" y2="15" />
-              </svg>
-            ) : (
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M11 5L6 9H2v6h4l5 4V5z" />
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14" />
-              </svg>
-            )}
-          </button>
         </>
       ) : (
         <>
@@ -306,6 +282,47 @@ export default function AvatarIntro() {
                     isMuted={isMuted}
                     onToggleMuted={handleMuteToggle}
                   />
+
+                  {/* Floating unmute button outside the clipped circle with premium pulse glow */}
+                  {introVideoSrc ? (
+                    <motion.button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleMuteToggle();
+                      }}
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onTouchStart={(e) => e.stopPropagation()}
+                      className="absolute bottom-2 right-2 z-[90] flex h-12 w-12 items-center justify-center rounded-full border border-blue-400/40 bg-[rgba(5,5,5,0.85)] text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] backdrop-blur-xl transition hover:scale-110 active:scale-95 cursor-pointer"
+                      animate={isMuted ? {
+                        scale: [1, 1.08, 1],
+                        boxShadow: [
+                          "0 0 12px rgba(59,130,246,0.25)",
+                          "0 0 24px rgba(59,130,246,0.6)",
+                          "0 0 12px rgba(59,130,246,0.25)"
+                        ]
+                      } : { scale: 1 }}
+                      transition={{
+                        repeat: Number.POSITIVE_INFINITY,
+                        duration: 2,
+                        ease: "easeInOut"
+                      }}
+                      aria-label={isMuted ? "Unmute audio" : "Mute audio"}
+                    >
+                      {isMuted ? (
+                        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                          <line x1="23" y1="9" x2="17" y2="15" />
+                          <line x1="17" y1="9" x2="23" y2="15" />
+                        </svg>
+                      ) : (
+                        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                          <path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14" />
+                        </svg>
+                      )}
+                    </motion.button>
+                  ) : null}
                 </motion.div>
 
                 <TypewriterText

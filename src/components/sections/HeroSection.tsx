@@ -1,24 +1,26 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
-import { fadeUp } from "../../lib/animations";
-import { heroRoles, siteConfig } from "../../lib/data";
+import { useEffect, useState } from "react";
+import { fadeUp } from "@/lib/animations";
+import { heroRoles, siteConfig } from "@/lib/data";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
-const ParticleField = dynamic(() => import("../3d/ParticleField"), {
+const ParticleField = dynamic(() => import("@/components/3d/ParticleField"), {
   ssr: false,
-  loading: () => <div className="absolute inset-0 bg-black" />,
+  loading: () => <div className="absolute inset-0 bg-[var(--bg-base)]" aria-hidden />,
 });
 
-const HeroSphere = dynamic(() => import("../3d/HeroSphere"), {
+const HeroSphere = dynamic(() => import("@/components/3d/HeroSphere"), {
   ssr: false,
   loading: () => (
-    <div className="h-full w-full rounded-[32px] bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.12),transparent_50%)]" />
+    <div
+      className="h-full w-full rounded-[32px] bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.12),transparent_50%)]"
+      aria-hidden
+    />
   ),
 });
-
-const name = "Sankalp Pingalwad";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 30, scale: 0.96 },
@@ -27,7 +29,7 @@ const sectionVariants = {
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.6,
+      duration: 0.8,
       ease: "easeOut",
       staggerChildren: 0.08,
       delayChildren: 0.08,
@@ -37,79 +39,69 @@ const sectionVariants = {
 
 const nameContainerVariants = {
   hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.04,
-      delayChildren: 0.08,
-    },
-  },
+  visible: { transition: { staggerChildren: 0.04, delayChildren: 0.08 } },
 } as const;
 
 const nameLetterVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.98 },
+  hidden: { opacity: 0, y: 24 },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
     transition: { duration: 0.5, ease: "easeOut" },
   },
 } as const;
 
-export default function HeroSection() {
-  const prefersReducedMotion = useReducedMotion();
-  const [roleIndex, setRoleIndex] = useState(0);
+const displayName = "Sankalp Pingalwad";
 
+export default function HeroSection() {
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [roleIndex, setRoleIndex] = useState(0);
   const activeRole = heroRoles[roleIndex] ?? heroRoles[0];
 
   useEffect(() => {
     const timer = window.setInterval(() => {
       setRoleIndex((current) => (current + 1) % heroRoles.length);
     }, 2500);
-
     return () => window.clearInterval(timer);
   }, []);
 
-  const letters = useMemo(() => {
-    const counts = new Map<string, number>();
-
-    return Array.from(name).map((letter) => {
-      const occurrence = counts.get(letter) ?? 0;
-      counts.set(letter, occurrence + 1);
-
-      return {
-        letter,
-        key: `${letter}-${occurrence}`,
-      };
-    });
-  }, []);
+  const letters = Array.from(displayName).map((letter, index) => ({
+    letter,
+    key: `${letter}-${index}`,
+  }));
 
   return (
     <section
       id="home"
-      className="relative min-h-screen overflow-hidden bg-[#050505] text-white"
+      aria-label="Hero introduction"
+      className="relative min-h-screen overflow-hidden bg-[var(--bg-base)] text-[var(--text-primary)]"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.14),transparent_30%),radial-gradient(circle_at_80%_30%,rgba(124,58,237,0.11),transparent_28%),linear-gradient(to_bottom,rgba(5,5,5,0.96),rgba(5,5,5,0.92))]" />
-      <div className="absolute inset-0 opacity-85">
+      <div
+        className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.14),transparent_30%),radial-gradient(circle_at_80%_30%,rgba(124,58,237,0.11),transparent_28%)]"
+        aria-hidden
+      />
+      <div className="absolute inset-0 opacity-90" aria-hidden>
         <ParticleField />
       </div>
 
       <div className="relative mx-auto flex min-h-screen max-w-7xl items-center px-6 pb-16 pt-28 sm:px-10 lg:px-16">
         <motion.div
-          className="grid w-full items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14"
+          className="grid w-full items-center gap-12 lg:grid-cols-[3fr_2fr] lg:gap-14"
           variants={sectionVariants}
           initial="hidden"
           animate="visible"
         >
+          {/* Left content — 60% */}
           <div className="max-w-3xl">
             <motion.p
-              className="mb-5 text-sm uppercase tracking-[0.42em] text-cyan-200/70"
+              className="mb-5 text-sm uppercase tracking-[0.42em] text-[var(--text-secondary)]"
               variants={fadeUp}
             >
               Available for opportunities · Mumbai, India
             </motion.p>
 
             <motion.h1
-              className="text-[48px] font-bold leading-[0.92] tracking-tight text-white sm:text-[64px] lg:text-[80px]"
+              className="font-[family-name:var(--font-syne)] text-[48px] font-bold leading-[0.92] tracking-tight text-white sm:text-[64px] lg:text-[80px]"
               variants={nameContainerVariants}
             >
               {letters.map(({ letter, key }) => (
@@ -125,23 +117,24 @@ export default function HeroSection() {
               ))}
             </motion.h1>
 
-            <div className="mt-7 h-12">
+            <div className="mt-7 h-12 overflow-hidden">
               <AnimatePresence mode="wait">
-                <motion.div
+                <motion.p
                   key={activeRole}
-                  initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
+                  exit={{ opacity: 0, y: -18 }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
-                  className="inline-flex rounded-full border border-cyan-200/12 bg-white/5 px-5 py-3 text-sm uppercase tracking-[0.32em] text-cyan-50/80 backdrop-blur-xl"
+                  className="text-sm font-medium uppercase tracking-[0.32em] text-[var(--accent-blue)]"
+                  aria-live="polite"
                 >
                   {activeRole}
-                </motion.div>
+                </motion.p>
               </AnimatePresence>
             </div>
 
             <motion.p
-              className="mt-8 max-w-2xl text-base leading-8 text-slate-300/92 sm:text-lg"
+              className="mt-8 max-w-2xl text-base leading-8 text-[var(--text-secondary)] sm:text-lg"
               variants={fadeUp}
             >
               I design and deploy production AI systems — from RAG pipelines and
@@ -155,33 +148,37 @@ export default function HeroSection() {
             >
               <a
                 href="#projects"
-                className="inline-flex items-center justify-center rounded-full border border-blue-500 bg-blue-500 px-8 py-3.5 text-sm font-medium text-white shadow-[0_0_24px_rgba(59,130,246,0.22)] transition hover:translate-y-[-1px] hover:bg-blue-600"
+                data-hoverable="true"
+                className="inline-flex items-center justify-center rounded-full bg-[var(--accent-blue)] px-8 py-3.5 text-sm font-medium text-white shadow-[0_0_24px_rgba(59,130,246,0.22)] transition hover:bg-[var(--accent-blue-glow)]"
               >
                 View Projects →
               </a>
               <a
                 href={siteConfig.resume}
-                download
-                className="inline-flex items-center justify-center rounded-full border border-white/14 bg-transparent px-8 py-3.5 text-sm font-medium text-white transition hover:border-white/30 hover:bg-white/5"
+                download="Sankalp-Pingalwad-Resume.pdf"
+                data-hoverable="true"
+                className="inline-flex items-center justify-center rounded-full border border-[var(--border)] bg-transparent px-8 py-3.5 text-sm font-medium text-white transition hover:border-white/20 hover:bg-white/5"
               >
                 Download Resume
               </a>
             </motion.div>
           </div>
 
+          {/* Right content — 40% */}
           <motion.div
-          className="relative h-[360px] sm:h-[420px] lg:h-[560px]"
+            className="relative h-[360px] sm:h-[420px] lg:h-[560px]"
             variants={fadeUp}
+            aria-hidden
           >
             <div className="absolute inset-0 rounded-[36px] bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.14),transparent_50%),radial-gradient(circle_at_bottom_right,rgba(124,58,237,0.12),transparent_35%)] blur-2xl" />
-          <div className="relative h-full overflow-hidden rounded-[36px] border border-white/10 bg-[rgba(255,255,255,0.03)] backdrop-blur-xl">
-            <div className="absolute inset-0 flex items-center justify-center lg:hidden">
-            <div className="h-56 w-56 rounded-full bg-[radial-gradient(circle_at_35%_35%,rgba(96,165,250,0.9),rgba(59,130,246,0.38)_36%,rgba(124,58,237,0.18)_68%,transparent_100%)] blur-[2px]" />
+            <div className="relative h-full overflow-hidden rounded-[36px] border border-[var(--border)] bg-[var(--glass-bg)] backdrop-blur-xl">
+              <div className="absolute inset-0 flex items-center justify-center lg:hidden">
+                <div className="h-56 w-56 animate-pulse rounded-full bg-[radial-gradient(circle_at_35%_35%,rgba(96,165,250,0.9),rgba(59,130,246,0.38)_36%,rgba(124,58,237,0.18)_68%,transparent_100%)]" />
+              </div>
+              <div className="absolute inset-0 hidden lg:block">
+                <HeroSphere />
+              </div>
             </div>
-            <div className="absolute inset-0 hidden lg:block">
-            <HeroSphere />
-            </div>
-          </div>
           </motion.div>
         </motion.div>
 
@@ -190,11 +187,12 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.2 }}
+          aria-hidden
         >
-          <div className="flex flex-col items-center gap-2 text-xs uppercase tracking-[0.35em] text-slate-300/70">
+          <div className="flex flex-col items-center gap-2 text-xs uppercase tracking-[0.35em] text-[var(--text-muted)]">
             <span>Scroll to explore</span>
             <motion.span
-              className="inline-flex h-5 w-5 rotate-45 border-b border-r border-cyan-200/80"
+              className="inline-flex h-5 w-5 rotate-45 border-b border-r border-[var(--accent-blue)]"
               animate={prefersReducedMotion ? undefined : { y: [0, 6, 0] }}
               transition={{
                 duration: 1.6,

@@ -1,55 +1,119 @@
-# Sankalp Pingalwad Portfolio
+# Sankalp Pingalwad — AI Engineer Portfolio
 
-Premium AI engineer portfolio built with Next.js, TypeScript, Tailwind CSS, Framer Motion, and React Three Fiber.
+Premium AI Engineer portfolio built with Next.js, TypeScript, Tailwind CSS v4, Framer Motion, React Three Fiber, and tsParticles.
 
-## Highlights
+**Live:** [sankalppingalwad.vercel.app](https://sankalppingalwad.vercel.app)
 
-- Premium dark visual system with animated hero, global cursor, and scroll progress bar
-- Desktop-only particle field with a mobile-friendly hero fallback
-- Expandable project cards with mouse-follow tilt
-- Viewport-based section reveals for the full landing page
-- Generated Open Graph image, `robots.txt`, `sitemap.xml`, and Person structured data
-- Keyboard focus states, reduced-motion handling, and mobile-first layout behavior
+---
 
 ## Tech Stack
 
-- Next.js App Router
-- React
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- React Three Fiber + Drei
-- tsParticles
+| Layer | Technology |
+|-------|------------|
+| Framework | Next.js 15+ (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Animation | Framer Motion, GSAP (available) |
+| 3D | React Three Fiber + drei |
+| Particles | tsParticles (neural network hero background) |
+| Smooth scroll | Lenis |
+| Fonts | Syne, DM Sans, Space Mono via `next/font` |
+| Deploy | Vercel |
+
+---
 
 ## Getting Started
 
+### Prerequisites
+
+- Node.js 20+
+- npm, pnpm, or yarn
+
+### Install & run
+
 ```bash
+git clone https://github.com/Sankalp1729/ai-portfolio.git
+cd ai-portfolio
 npm install
 npm run dev
 ```
 
-Open `http://localhost:3000` in your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Production Build
+### Build for production
 
 ```bash
 npm run build
 npm start
 ```
 
-## Deployment
+### Lint & format
 
-1. Push the repository to GitHub.
-2. Import the project into Vercel.
-3. Leave the build command as `npm run build`.
-4. Deploy with the default Next.js output settings.
+```bash
+npm run lint
+npm run format
+```
 
-## Content Notes
+---
 
-- Update links in `src/lib/data.ts` for GitHub, LinkedIn, email, and resume.
-- Replace the profile image in `public/images/profile.png` if you want a different portrait.
-- Update project assets in `public/images/projects/` if you add new showcase work.
+## Project Structure
 
-## SEO
+```
+src/
+├── app/                  # Next.js App Router (layout, page, globals, SEO)
+├── components/
+│   ├── 3d/               # HeroSphere, ParticleField (lazy-loaded)
+│   ├── animations/       # ScrollReveal, TextReveal, Counter
+│   ├── avatar/           # AvatarIntro, FloatingOrb
+│   ├── layout/           # Navbar, SmoothScroll
+│   ├── sections/       # Hero, About, Projects, Experience, Skills, etc.
+│   └── ui/               # Cursor, Loader, ProjectCard, ScrollProgress
+├── data/                 # Site config, projects, skills, experience, timeline
+├── hooks/                # useScroll, useMouse, usePrefersReducedMotion
+├── lib/                  # animations, fonts, data barrel
+└── types/                # Shared TypeScript types
+public/
+└── assets/               # Resume PDF, avatar SVG
+```
 
-The site metadata lives in `src/app/layout.tsx`. Search engine helpers are in `src/app/robots.ts`, `src/app/sitemap.ts`, and the generated social preview in `src/app/opengraph-image.tsx`.
+---
+
+## Before Deploying
+
+1. **Resume** — Add your PDF at `public/assets/resume.pdf`
+2. **Profile photo** — Replace `public/images/profile.svg` with a headshot (or update `AboutSection.tsx` to use `.jpg`)
+3. **Domain** — Update `metadataBase` in `src/app/layout.tsx` if using a custom domain
+4. **Formspree (optional)** — Contact form uses `mailto:` by default; swap to Formspree in `ContactSection.tsx` if preferred
+
+---
+
+## Deploy to Vercel
+
+1. Push the repo to GitHub
+2. Import the project at [vercel.com/new](https://vercel.com/new)
+3. Framework preset: **Next.js**
+4. Deploy — no extra env vars required for the default setup
+
+```bash
+# Or via CLI
+npm i -g vercel
+vercel
+```
+
+---
+
+## Features
+
+- **Avatar intro** — First-visit cinematic overlay with typewriter + floating orb replay
+- **Hero** — tsParticles neural network + R3F wireframe sphere with mouse parallax
+- **Projects** — Expandable cards with 8° mouse tilt, metrics, architecture notes
+- **Skills** — Tabbed categories with animated floating orbs
+- **Accessibility** — ARIA labels, keyboard nav, focus rings, `prefers-reduced-motion` support
+- **Performance** — 3D/particles lazy-loaded; particles desktop-only; `next/image` throughout
+- **SEO** — Open Graph image, Person schema JSON-LD, sitemap, robots.txt
+
+---
+
+## License
+
+Private portfolio — all rights reserved © Sankalp Pingalwad 2026.

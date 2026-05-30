@@ -1,50 +1,66 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
-import { fadeUp, sectionStagger, viewportReveal } from "../../lib/animations";
-import { skillCategories } from "../../lib/data";
+import { getSkillIcon, skillCategories } from "@/data/skills";
+import { fadeUp, sectionStagger, viewportReveal } from "@/lib/animations";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 const tabOrder = [
   "Languages",
   "ML",
+  "AI/ML",
   "LLMs",
   "Vision",
   "Deploy",
   "Data",
   "DB",
   "Viz",
+  "Tools",
 ] as const;
 
-const tabLabels: Record<(typeof tabOrder)[number], string> = {
+type TabKey = (typeof tabOrder)[number];
+
+const tabLabels: Record<TabKey, string> = {
   Languages: "Languages",
   ML: "ML",
+  "AI/ML": "AI/ML",
   LLMs: "LLMs & Agents",
   Vision: "Vision & Speech",
   Deploy: "Deployment",
   Data: "Data Engineering",
   DB: "Databases",
   Viz: "Visualization",
+  Tools: "Tools",
 };
 
 function SkillChip({ skill, index }: { skill: string; index: number }) {
+  const icon = getSkillIcon(skill);
+
   return (
     <motion.div
-      className="flex items-center gap-3 rounded-2xl border border-white/6 bg-black/25 px-4 py-3 text-sm text-slate-200/90"
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.45, delay: index * 0.04, ease: "easeOut" }}
+      className="flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-black/25 px-4 py-3 text-sm text-[var(--text-primary)]"
+      initial={{ opacity: 0, y: 16, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{
+        type: "spring",
+        stiffness: 400,
+        damping: 25,
+        delay: index * 0.04,
+      }}
     >
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-blue-400/20 bg-blue-500/10 font-[family-name:var(--font-space-mono)] text-[10px] font-bold text-blue-200">
+        {icon}
+      </span>
       <span>{skill}</span>
     </motion.div>
   );
 }
 
 export default function SkillsSection() {
-  const prefersReducedMotion = useReducedMotion();
-  const [activeTab, setActiveTab] =
-    useState<(typeof tabOrder)[number]>("LLMs");
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [activeTab, setActiveTab] = useState<TabKey>("LLMs");
+
   const activeCategory = useMemo(
     () =>
       skillCategories.find((category) => category.label === activeTab) ??
@@ -55,21 +71,12 @@ export default function SkillsSection() {
   return (
     <section
       id="skills"
-      className="relative overflow-hidden bg-[linear-gradient(to_bottom,#020617,#000000)] px-6 py-24 text-white sm:px-10 lg:px-16"
+      aria-label="Technical skills"
+      className="relative overflow-hidden bg-[var(--bg-base)] px-6 py-24 text-[var(--text-primary)] sm:px-10 lg:px-16"
     >
-      <motion.div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.1),transparent_30%),radial-gradient(circle_at_80%_10%,rgba(124,58,237,0.08),transparent_24%)]"
-        animate={
-          prefersReducedMotion
-            ? { opacity: 0.75 }
-            : { opacity: [0.65, 1, 0.65] }
-        }
-        transition={{
-          duration: 8,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.1),transparent_30%)]"
+        aria-hidden
       />
 
       <motion.div
@@ -79,30 +86,33 @@ export default function SkillsSection() {
         whileInView="visible"
         viewport={viewportReveal}
       >
-        <div className="space-y-4">
-          <motion.p
-            className="text-sm uppercase tracking-[0.42em] text-cyan-200/70"
-            variants={fadeUp}
-          >
-            Technical Arsenal
-          </motion.p>
-          <motion.h2
-            className="text-4xl font-semibold tracking-tight text-white sm:text-5xl"
-            variants={fadeUp}
-          >
-            Everything I use to build, train, and ship AI systems.
-          </motion.h2>
-        </div>
+        <motion.h2
+          className="font-[family-name:var(--font-syne)] text-4xl font-bold tracking-tight sm:text-5xl"
+          variants={fadeUp}
+        >
+          Technical Arsenal
+        </motion.h2>
 
         <div className="grid gap-8 lg:grid-cols-[0.86fr_1.14fr]">
-          <div className="rounded-[32px] border border-white/8 bg-[rgba(255,255,255,0.04)] p-4 backdrop-blur-2xl">
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+          <div className="glass-panel p-4">
+            <div
+              className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1"
+              role="tablist"
+              aria-label="Skill categories"
+            >
               {tabOrder.map((tab) => (
                 <button
                   key={tab}
                   type="button"
+                  role="tab"
+                  aria-selected={activeTab === tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`rounded-2xl border px-4 py-4 text-left text-sm uppercase tracking-[0.3em] transition ${activeTab === tab ? "border-blue-400/40 bg-blue-500/10 text-white" : "border-white/6 bg-black/20 text-slate-300/85 hover:border-white/12 hover:bg-white/5"}`}
+                  data-hoverable="true"
+                  className={`rounded-2xl border px-4 py-3 text-left text-sm uppercase tracking-[0.24em] transition ${
+                    activeTab === tab
+                      ? "border-blue-400/40 bg-blue-500/10 text-white"
+                      : "border-[var(--border)] bg-black/20 text-[var(--text-secondary)] hover:border-white/12 hover:bg-white/5"
+                  }`}
                 >
                   {tabLabels[tab]}
                 </button>
@@ -111,17 +121,21 @@ export default function SkillsSection() {
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-[32px] border border-white/8 bg-[rgba(255,255,255,0.04)] p-5 backdrop-blur-2xl">
+            <div
+              className="glass-panel p-5"
+              role="tabpanel"
+              aria-label={tabLabels[activeTab]}
+            >
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <div className="text-xs uppercase tracking-[0.34em] text-cyan-100/60">
+                  <div className="text-xs uppercase tracking-[0.34em] text-[var(--text-muted)]">
                     {activeCategory.group}
                   </div>
-                  <h3 className="mt-2 text-2xl font-semibold text-white">
-                    {activeCategory.label}
+                  <h3 className="mt-2 font-[family-name:var(--font-syne)] text-2xl font-bold">
+                    {tabLabels[activeTab]}
                   </h3>
                 </div>
-                <div className="text-xs uppercase tracking-[0.3em] text-slate-400">
+                <div className="text-xs uppercase tracking-[0.3em] text-[var(--text-muted)]">
                   {activeCategory.skills.length} skills
                 </div>
               </div>
@@ -137,7 +151,11 @@ export default function SkillsSection() {
               </div>
             </div>
 
-            <motion.div className="relative min-h-[300px] overflow-hidden rounded-[32px] border border-white/8 bg-[rgba(255,255,255,0.04)] p-5 backdrop-blur-2xl">
+            {/* Floating skill orbs — spring entrance on tab change */}
+            <motion.div
+              key={activeCategory.label}
+              className="relative min-h-[300px] overflow-hidden glass-panel p-5"
+            >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.12),transparent_46%)]" />
               <div className="relative flex h-full items-center justify-center">
                 <div className="relative h-[260px] w-[260px] sm:h-[320px] sm:w-[320px]">
@@ -154,20 +172,23 @@ export default function SkillsSection() {
                       initial={
                         prefersReducedMotion
                           ? { opacity: 1, scale: 1 }
-                          : { opacity: 0, scale: 0.4 }
+                          : { opacity: 0, scale: 0.4, y: 20 }
                       }
                       animate={
                         prefersReducedMotion
-                          ? { opacity: 1, scale: 1 }
-                          : { opacity: 1, scale: 1, y: -8 }
+                          ? { opacity: 1, scale: 1, y: 0 }
+                          : { opacity: 1, scale: 1, y: [-6, 6, -6] }
                       }
                       transition={{
                         type: "spring",
-                        stiffness: 220,
-                        damping: 18,
-                        repeat: Number.POSITIVE_INFINITY,
-                        repeatType: "reverse",
+                        stiffness: 400,
+                        damping: 25,
                         delay: orb.delay,
+                        y: {
+                          duration: 4,
+                          repeat: Number.POSITIVE_INFINITY,
+                          ease: "easeInOut",
+                        },
                       }}
                     >
                       {orb.label}

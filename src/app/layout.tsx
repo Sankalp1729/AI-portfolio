@@ -1,31 +1,11 @@
 import type { Metadata } from "next";
-import { DM_Sans, Space_Mono, Syne } from "next/font/google";
 import "./globals.css";
-import AvatarIntro from "../components/avatar/AvatarIntro";
-import ScrollProgress from "../components/ui/ScrollProgress";
-import Navbar from "../components/ui/Navbar";
-import { siteConfig } from "../lib/data";
-
-const syne = Syne({
-  variable: "--font-syne",
-  subsets: ["latin"],
-  weight: ["700", "800"],
-  display: "swap",
-});
-
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-});
-
-const spaceMono = Space_Mono({
-  variable: "--font-space-mono",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  display: "swap",
-});
+import AvatarIntro from "@/components/avatar/AvatarIntro";
+import Navbar from "@/components/layout/Navbar";
+import SmoothScroll from "@/components/layout/SmoothScroll";
+import ScrollProgress from "@/components/ui/ScrollProgress";
+import { siteConfig } from "@/lib/data";
+import { fontVariables } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Sankalp Pingalwad — AI Engineer",
@@ -68,9 +48,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${dmSans.variable} ${spaceMono.variable} h-full antialiased`}
+      className={`${fontVariables} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col overflow-x-hidden bg-black text-white">
+      <body className="flex min-h-full flex-col overflow-x-hidden bg-[var(--bg-base)] text-[var(--text-primary)]">
         <ScrollProgress />
         <Navbar />
         <AvatarIntro />
@@ -94,7 +74,7 @@ export default function RootLayout({
             }),
           }}
         />
-        {children}
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );

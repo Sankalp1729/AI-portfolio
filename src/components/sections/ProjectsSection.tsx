@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { fadeUp, sectionStagger, viewportReveal } from "../../lib/animations";
-import { showcaseProjects } from "../../lib/data";
-import ProjectCard from "../ui/ProjectCard";
+import { fadeUp, sectionStagger, viewportReveal } from "@/lib/animations";
+import { showcaseProjects } from "@/data/projects";
+import ProjectCard from "@/components/ui/ProjectCard";
 
 export default function ProjectsSection() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -16,17 +16,12 @@ export default function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="relative overflow-hidden bg-black px-6 py-24 text-white sm:px-10 lg:px-16"
+      aria-label="Projects and shipped systems"
+      className="relative overflow-hidden bg-[var(--bg-base)] px-6 py-24 text-[var(--text-primary)] sm:px-10 lg:px-16"
     >
-      <motion.div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.1),transparent_34%),radial-gradient(circle_at_80%_20%,rgba(124,58,237,0.08),transparent_30%)]"
-        animate={{ opacity: [0.62, 1, 0.62] }}
-        transition={{
-          duration: 9,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.1),transparent_34%)]"
+        aria-hidden
       />
 
       <motion.div
@@ -37,18 +32,18 @@ export default function ProjectsSection() {
         viewport={viewportReveal}
       >
         <div className="space-y-4">
-          <motion.p
-            className="text-sm uppercase tracking-[0.42em] text-cyan-200/70"
+          <motion.h2
+            className="font-[family-name:var(--font-syne)] text-4xl font-bold tracking-tight sm:text-5xl"
             variants={fadeUp}
           >
-            Systems I've Shipped
-          </motion.p>
-          <motion.h2
-            className="text-4xl font-semibold tracking-tight text-white sm:text-5xl"
+            Systems I&apos;ve Shipped
+          </motion.h2>
+          <motion.p
+            className="max-w-2xl text-lg text-[var(--text-secondary)]"
             variants={fadeUp}
           >
             Production deployments, not demos.
-          </motion.h2>
+          </motion.p>
         </div>
 
         <div className="grid gap-5 xl:grid-cols-2">

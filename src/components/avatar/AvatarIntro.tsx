@@ -180,7 +180,7 @@ export default function AvatarIntro() {
   const [introVideoStatus, setIntroVideoStatus] = useState<
     "checking" | "available" | "missing"
   >("available");
-  const [introVideoSrc, setIntroVideoSrc] = useState<string | null>("/avatar/intro-video.mp4");
+  const [introVideoSrc, setIntroVideoSrc] = useState<string | null>("/avatar/intro-video.mp4?v=2");
   const [isOrbPaused, setIsOrbPaused] = useState(true);
   const [isAvatarSettled, setIsAvatarSettled] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
@@ -198,7 +198,7 @@ export default function AvatarIntro() {
   const handleReplay = useCallback(() => {
     setShowOrb(false);
     setIntroVideoStatus("available");
-    setIntroVideoSrc("/avatar/intro-video.mp4");
+    setIntroVideoSrc("/avatar/intro-video.mp4?v=2");
     setShowIntro(true);
     setIsReplay(true);
     setIsMuted(true);

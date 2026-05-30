@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import "./globals.css";
-import AvatarIntro from "@/components/avatar/AvatarIntro";
 import Navbar from "@/components/layout/Navbar";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import { siteConfig } from "@/lib/data";
 import { fontVariables } from "@/lib/fonts";
+
+const AvatarIntro = dynamic(() => import("@/components/avatar/AvatarIntro"), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: "Sankalp Pingalwad — AI Engineer",

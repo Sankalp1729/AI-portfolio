@@ -113,13 +113,32 @@ section {
   }
 }
 
-.orb-pulse {
-  animation: orb-pulse 2.4s ease-in-out infinite;
+@keyframes hologram-scan {
+  0% {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 0.35;
+  }
+
+  80% {
+    opacity: 0.28;
+  }
+
+  100% {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+}
+
+.hologram-scanline {
+  animation: hologram-scan 3s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .orb-pulse {
+  .hologram-scanline {
     animation: none;
-    box-shadow: 0 0 24px rgba(59, 130, 246, 0.35);
   }
 }

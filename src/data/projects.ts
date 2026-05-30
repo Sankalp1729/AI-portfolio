@@ -4,6 +4,7 @@ export const showcaseProjects: ShowcaseProject[] = [
   {
     number: "01",
     title: "DocuMind AI",
+    image: "/projects/documind.webp",
     tagline: "RAG-powered multi-document intelligence platform",
     description:
       "Production RAG system with semantic retrieval over 100+ page PDFs. Sub-800ms query latency, 94%+ semantic relevance on factual queries. Full FastAPI REST backend, Dockerized, deployed on HuggingFace Spaces.",
@@ -30,6 +31,7 @@ export const showcaseProjects: ShowcaseProject[] = [
   {
     number: "02",
     title: "MailMind AI",
+    image: "/projects/mailmind.webp",
     tagline: "AI email intelligence with RL-powered urgency scoring",
     description:
       "Gmail API integration with OAuth 2.0, NLP-based 3-class action classification, custom RL reward model. Full CI/CD via GitHub Actions. Lazy-loaded Transformers reduced cold-start memory 40%. Real-time Plotly sentiment dashboard.",
@@ -60,6 +62,7 @@ export const showcaseProjects: ShowcaseProject[] = [
   {
     number: "03",
     title: "Unified Context AI System",
+    image: "/projects/unified-context.webp",
     tagline: "8-agent cross-platform AI with shared memory",
     description:
       "8-agent pipeline spanning ingestion, summarisation, intent classification, context-aware response, visual memory tagging, cognitive scoring, synthetic data generation, and RL decision-making — unified across Email, WhatsApp, Instagram via shared SQLite memory.",
@@ -83,6 +86,7 @@ export const showcaseProjects: ShowcaseProject[] = [
   {
     number: "04",
     title: "Multimodal Emotion Recognition",
+    image: "/projects/emotion-recognition.webp",
     tagline: "Three-modal deep learning fusion system",
     description:
       "CNN facial expression + MFCC speech features + LSTM text sentiment fused for 6-class emotion recognition. Ablation study across early, late, and hybrid fusion strategies. Late-fusion outperformed all single-modality baselines.",

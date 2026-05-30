@@ -1,13 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 import {
   cardLift,
   fadeUp,
   sectionStagger,
   viewportReveal,
 } from "@/lib/animations";
-import { recognitionItems } from "@/data/timeline";
+import { achievements } from "@/data/achievements";
+import AchievementModal from "@/components/ui/AchievementModal";
+import type { AchievementItem } from "@/types";
 
 function NeuralIcon() {
   return (
@@ -51,47 +54,67 @@ const icons = {
 } as const;
 
 type RecognitionCardProps = {
-  issuer: string;
-  title: string;
-  date: string;
-  org?: string;
-  icon: keyof typeof icons;
-};
+  id: string;
+    achievement: AchievementItem;
+    onOpen: (achievement: AchievementItem) => void;
+  };
 
-function RecognitionCard({ issuer, title, date, org, icon }: RecognitionCardProps) {
-  return (
-    <motion.article
-      data-hoverable="true"
-      className="relative overflow-hidden glass-panel p-6 transition hover:border-blue-400/30 hover:shadow-[0_0_32px_rgba(59,130,246,0.14)]"
-      variants={cardLift}
-      whileHover={{ y: -4 }}
-    >
-      <div className="absolute right-5 top-5 rounded-full border border-[var(--border)] bg-black/30 px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-[var(--text-muted)]">
-        {issuer}
-      </div>
+  function RecognitionCard({ achievement, onOpen }: RecognitionCardProps) {
+    const {
+      title,
+      organization,
+      year,
+      month,
+      description,
+      icon,
+    } = achievement;
 
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--border)] bg-black/25 shadow-[0_0_24px_rgba(59,130,246,0.15)]">
-        {icons[icon]}
-      </div>
+    return (
+      <motion.article
+        data-hoverable="true"
+        className="relative flex h-full flex-col overflow-hidden rounded-[26px] border border-[var(--border)] bg-[var(--bg-card)] p-6 transition hover:-translate-y-1 hover:border-blue-400/35 hover:shadow-[0_0_32px_rgba(59,130,246,0.18)]"
+        variants={cardLift}
+        whileHover={{ y: -4 }}
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--border)] bg-black/25 shadow-[0_0_24px_rgba(59,130,246,0.15)]">
+            {icons[icon]}
+          </div>
+          <span className="rounded-full border border-[var(--border)] bg-black/30 px-3 py-1 text-[10px] uppercase tracking-[0.26em] text-[var(--text-muted)]">
+            {month} {year}
+          </span>
+        </div>
 
-      <h3 className="mt-6 font-[family-name:var(--font-syne)] text-xl font-bold sm:text-2xl">
-        {title}
-      </h3>
+        <h3 className="mt-5 font-[family-name:var(--font-syne)] text-xl font-bold sm:text-2xl">
+          {title}
+        </h3>
 
-      {org ? <p className="mt-2 text-sm text-[var(--text-muted)]">{org}</p> : null}
+        <div className="mt-3 inline-flex w-fit rounded-full border border-blue-400/25 bg-blue-500/10 px-3 py-1.5 text-[10px] uppercase tracking-[0.24em] text-blue-100">
+          {organization}
+        </div>
 
-      <div className="mt-4 inline-flex rounded-full border border-blue-400/25 bg-blue-500/10 px-4 py-2 text-xs uppercase tracking-[0.32em] text-blue-100">
-        {date}
-      </div>
-    </motion.article>
-  );
-}
+        <p className="mt-4 overflow-hidden text-sm leading-7 text-[var(--text-secondary)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
+          {description}
+        </p>
 
-export default function CertificationsSection() {
-  return (
-    <section
+        <div className="mt-auto pt-6">
+          <button
+            type="button"
+            onClick={() => onOpen(achievement)}
+            data-hoverable="true"
+            className="text-xs uppercase tracking-[0.28em] text-[var(--text-secondary)] transition hover:text-[var(--accent-blue)]"
+          >
+            View Certificate →
+          </button>
+        </div>
+      </motion.article>
+    );
+  }
       id="achievements"
       aria-label="Certifications and recognition"
+    const [selectedAchievement, setSelectedAchievement] =
+      useState<AchievementItem | null>(null);
+
       className="relative overflow-hidden bg-[var(--bg-base)] px-6 py-24 text-[var(--text-primary)] sm:px-10 lg:px-16"
     >
       <div
@@ -114,17 +137,20 @@ export default function CertificationsSection() {
         </motion.h2>
 
         <div className="grid gap-5 md:grid-cols-3">
-          {recognitionItems.map(({ issuer, title, date, org, icon }) => (
+          {achievements.map((achievement) => (
             <RecognitionCard
-              key={title}
-              issuer={issuer}
-              title={title}
-              date={date}
-              org={org}
-              icon={icon}
+              key={achievement.id}
+              achievement={achievement}
+              onOpen={setSelectedAchievement}
             />
           ))}
         </div>
+
+        <AchievementModal
+          achievement={selectedAchievement}
+          isOpen={selectedAchievement !== null}
+          onClose={() => setSelectedAchievement(null)}
+        />
       </motion.div>
     </section>
   );

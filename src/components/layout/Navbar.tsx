@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { useScroll } from "@/hooks/useScroll";
-import { navItems, siteConfig } from "@/lib/data";
+import { navItems } from "@/lib/data";
 
 const springHover = { type: "spring" as const, stiffness: 400, damping: 25 };
 
@@ -74,8 +74,10 @@ export default function Navbar() {
 
           <div className="flex items-center gap-3">
             <motion.a
-              href={siteConfig.resume}
-              download="Sankalp-Pingalwad-Resume.pdf"
+              href="/assets/resume.pdf"
+              download="Sankalp_Pingalwad_Resume.pdf"
+              target="_blank"
+              rel="noreferrer"
               className="hidden rounded-full border border-[var(--accent-blue)] px-4 py-2 text-sm text-[var(--accent-blue)] transition-colors duration-300 hover:bg-[var(--accent-blue)] hover:text-white sm:inline-flex"
               whileHover={prefersReducedMotion ? undefined : springHover}
               whileTap={prefersReducedMotion ? undefined : { scale: 0.97, ...springHover }}
@@ -131,8 +133,10 @@ export default function Navbar() {
                   </motion.a>
                 ))}
                 <a
-                  href={siteConfig.resume}
-                  download="Sankalp-Pingalwad-Resume.pdf"
+                  href="/assets/resume.pdf"
+                  download="Sankalp_Pingalwad_Resume.pdf"
+                  target="_blank"
+                  rel="noreferrer"
                   className="mt-2 rounded-2xl border border-[var(--accent-blue)] px-4 py-3 text-center text-sm text-[var(--accent-blue)] transition hover:bg-[var(--accent-blue)] hover:text-white"
                 >
                   Resume →

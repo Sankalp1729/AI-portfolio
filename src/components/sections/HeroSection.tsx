@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { fadeUp } from "@/lib/animations";
-import { heroRoles, siteConfig } from "@/lib/data";
+import { heroRoles } from "@/lib/data";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 const ParticleField = dynamic(() => import("@/components/3d/ParticleField"), {
@@ -156,8 +156,10 @@ export default function HeroSection() {
                 View Projects →
               </a>
               <a
-                href={siteConfig.resume}
-                download="Sankalp-Pingalwad-Resume.pdf"
+                href="/assets/resume.pdf"
+                download="Sankalp_Pingalwad_Resume.pdf"
+                target="_blank"
+                rel="noreferrer"
                 data-hoverable="true"
                 className="inline-flex items-center justify-center rounded-full border border-[var(--border)] bg-transparent px-8 py-3.5 text-sm font-medium text-white transition hover:border-white/20 hover:bg-white/5"
               >
@@ -173,11 +175,8 @@ export default function HeroSection() {
             aria-hidden
           >
             <div className="absolute inset-0 rounded-[36px] bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.14),transparent_50%),radial-gradient(circle_at_bottom_right,rgba(124,58,237,0.12),transparent_35%)] blur-2xl" />
-            <div className="relative h-full overflow-hidden rounded-[36px] border border-[var(--border)] bg-[var(--glass-bg)] backdrop-blur-xl">
-              <div className="absolute inset-0 flex items-center justify-center lg:hidden">
-                <div className="h-56 w-56 animate-pulse rounded-full bg-[radial-gradient(circle_at_35%_35%,rgba(96,165,250,0.9),rgba(59,130,246,0.38)_36%,rgba(124,58,237,0.18)_68%,transparent_100%)]" />
-              </div>
-              <div className="absolute inset-0 hidden lg:block">
+            <div className="relative flex h-full items-center justify-center overflow-hidden rounded-[36px] border border-[var(--border)] bg-[var(--glass-bg)] backdrop-blur-xl">
+              <div className="absolute inset-0 flex items-center justify-center">
                 <HeroSphere />
               </div>
             </div>

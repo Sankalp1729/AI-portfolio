@@ -8,10 +8,12 @@ export {
 
 export { showcaseProjects } from "@/data/projects";
 export { experienceShowcase } from "@/data/experience";
+export { achievements } from "@/data/achievements";
 export { journeyTimeline, recognitionItems } from "@/data/timeline";
 export { getSkillIcon, skillCategories } from "@/data/skills";
 
 export type {
+  AchievementItem,
   CertificationShowcaseItem,
   ExperienceShowcaseItem,
   NavItem,

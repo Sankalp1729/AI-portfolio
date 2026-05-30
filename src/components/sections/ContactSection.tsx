@@ -16,7 +16,7 @@ type FormState = {
 const CONTACT_EMAIL = "pingalwadsankalp1729@gmail.com";
 const FORMSPREE_ENDPOINT = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
 
-function ContactIcon({ icon }: { icon: "mail" | "linkedin" | "github" | "pin" }) {
+function ContactIcon({ icon }: { icon: "mail" | "linkedin" | "github" | "pin" | "document" }) {
   const paths = {
     mail: (
       <>
@@ -47,6 +47,18 @@ function ContactIcon({ icon }: { icon: "mail" | "linkedin" | "github" | "pin" })
         <circle cx="12" cy="11" r="1.7" fill="currentColor" />
       </>
     ),
+    document: (
+      <>
+        <path
+          d="M8 4.5h6.7L19.5 9v10.5H8z"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+        />
+        <path d="M14.7 4.5V9h4.8" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M10.7 13h6.1M10.7 16h6.1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      </>
+    ),
   };
 
   return (
@@ -63,10 +75,11 @@ function ContactRow({
   href,
   onCopy,
 }: {
-  icon: "mail" | "linkedin" | "github" | "pin";
+  icon: "mail" | "linkedin" | "github" | "pin" | "document";
   label: string;
   value: string;
   href?: string;
+  download?: string;
   onCopy?: () => void;
 }) {
   const content = (
@@ -89,6 +102,7 @@ function ContactRow({
         href={href}
         target={href.startsWith("http") ? "_blank" : undefined}
         rel={href.startsWith("http") ? "noreferrer" : undefined}
+        download={download}
         data-hoverable="true"
       >
         {content}
@@ -232,6 +246,13 @@ export default function ContactSection() {
               label="GitHub"
               value="github.com/Sankalp1729"
               href={siteConfig.github}
+            />
+            <ContactRow
+              icon="document"
+              label="Resume"
+              value="Download PDF"
+              href="/assets/resume.pdf"
+              download="Sankalp_Pingalwad_Resume.pdf"
             />
             <ContactRow icon="pin" label="Location" value="Mumbai, India" />
           </div>

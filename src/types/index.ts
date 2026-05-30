@@ -6,6 +6,7 @@ export type NavItem = {
 export type ShowcaseProject = {
   number: string;
   title: string;
+  image: string;
   tagline: string;
   description: string;
   fullDescription: string;
@@ -53,6 +54,18 @@ export type CertificationShowcaseItem = {
   title: string;
   date: string;
   org?: string;
+  icon: "neural" | "bars" | "trophy";
+};
+
+export type AchievementItem = {
+  id: string;
+  title: string;
+  organization: string;
+  year: string;
+  month: string;
+  image: string;
+  description: string;
+  credentialLink: string;
   icon: "neural" | "bars" | "trophy";
 };
 

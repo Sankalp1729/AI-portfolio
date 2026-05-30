@@ -13,9 +13,6 @@ export default function Loader() {
 				>
 					SP
 				</motion.div>
-				<p className="text-xs uppercase tracking-[0.45em] text-slate-300/70">
-					Loading portfolio
-				</p>
 			</div>
 		</div>
 	);

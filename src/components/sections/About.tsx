@@ -40,7 +40,7 @@ export default function About() {
 					<div className="absolute inset-0 -z-10 rounded-[36px] bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.14),transparent_54%)] blur-3xl" />
 					<div className="overflow-hidden rounded-[36px] border border-cyan-200/10 bg-white/5 p-4 backdrop-blur-2xl">
 						<div className="relative overflow-hidden rounded-[28px] border border-white/5 bg-black/25">
-							<Image src="/images/profile.svg" alt="Sankalp Pingalwad" width={1200} height={1400} className="h-full w-full object-cover object-top" priority />
+							<Image src="/images/profile.jpg" alt="Sankalp Pingalwad" width={1200} height={1400} className="h-full w-full object-cover object-top" priority />
 							<div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(0,0,0,0.6))]" />
 							<div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
 								<div className="inline-flex rounded-full border border-cyan-200/15 bg-black/35 px-4 py-2 text-xs uppercase tracking-[0.32em] text-cyan-100/70 backdrop-blur-xl">Final Year AI Student</div>

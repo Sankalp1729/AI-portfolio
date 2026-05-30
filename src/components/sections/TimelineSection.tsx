@@ -53,7 +53,7 @@ export default function TimelineSection() {
             className="text-4xl font-semibold tracking-tight text-white sm:text-5xl"
             variants={fadeUp}
           >
-            Vertical milestones from first model to full-time AI engineering.
+            From first Python script to production AI systems.
           </motion.h2>
         </div>
 

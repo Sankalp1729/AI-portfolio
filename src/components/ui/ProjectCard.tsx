@@ -112,10 +112,6 @@ export default function ProjectCard({
         transition={{ duration: 0.35, ease: "easeOut" }}
       />
 
-      <div className="pointer-events-none absolute -right-2 top-2 select-none text-[92px] font-semibold leading-none tracking-[-0.08em] text-white/4 sm:text-[108px]">
-        {number}
-      </div>
-
       <div className="relative flex items-start justify-between gap-4">
         <div className="max-w-[80%]">
           <div className="text-xs uppercase tracking-[0.34em] text-slate-400">
@@ -125,11 +121,6 @@ export default function ProjectCard({
             {project.title}
           </h3>
         </div>
-        <span
-          className={`rounded-full border px-3 py-1 text-[11px] uppercase tracking-[0.26em] ${styles.badge} bg-white/5 backdrop-blur-xl`}
-        >
-          {project.accent}
-        </span>
       </div>
 
       <p className="relative mt-5 max-w-2xl text-sm leading-7 text-slate-300/88">

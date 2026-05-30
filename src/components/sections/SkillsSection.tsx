@@ -28,8 +28,6 @@ const tabLabels: Record<(typeof tabOrder)[number], string> = {
 };
 
 function SkillChip({ skill, index }: { skill: string; index: number }) {
-  const icon = skill.slice(0, 2).toUpperCase();
-
   return (
     <motion.div
       className="flex items-center gap-3 rounded-2xl border border-white/6 bg-black/25 px-4 py-3 text-sm text-slate-200/90"
@@ -38,9 +36,6 @@ function SkillChip({ skill, index }: { skill: string; index: number }) {
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.45, delay: index * 0.04, ease: "easeOut" }}
     >
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-blue-400/20 bg-blue-500/10 text-[11px] font-semibold text-blue-100">
-        {icon}
-      </span>
       <span>{skill}</span>
     </motion.div>
   );
@@ -49,7 +44,7 @@ function SkillChip({ skill, index }: { skill: string; index: number }) {
 export default function SkillsSection() {
   const prefersReducedMotion = useReducedMotion();
   const [activeTab, setActiveTab] =
-    useState<(typeof tabOrder)[number]>("Languages");
+    useState<(typeof tabOrder)[number]>("LLMs");
   const activeCategory = useMemo(
     () =>
       skillCategories.find((category) => category.label === activeTab) ??
@@ -95,7 +90,7 @@ export default function SkillsSection() {
             className="text-4xl font-semibold tracking-tight text-white sm:text-5xl"
             variants={fadeUp}
           >
-            Tabbed capability surfaces for the full AI stack.
+            Everything I use to build, train, and ship AI systems.
           </motion.h2>
         </div>
 

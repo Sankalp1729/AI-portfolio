@@ -99,7 +99,7 @@ export default function ExperienceSection() {
             className="text-4xl font-semibold tracking-tight text-white sm:text-5xl"
             variants={fadeUp}
           >
-            Production AI systems with measurable impact.
+            Six months shipping production AI. Here's what I built.
           </motion.h2>
         </div>
 

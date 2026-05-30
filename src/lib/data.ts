@@ -150,7 +150,7 @@ export const projectItems: ProjectItem[] = [
     metrics: ["RAG", "FAISS", "FastAPI"],
     badges: ["Docker", "Semantic Retrieval", "Deployment"],
     image: "/images/projects/documind.png",
-    github: "https://github.com/",
+    github: "https://github.com/Sankalp1729/DocuMind-AI",
     demo: "#",
     problem: "Turn dense documents into a fast, reliable knowledge interface.",
     architecture:
@@ -163,7 +163,7 @@ export const projectItems: ProjectItem[] = [
     metrics: ["RL", "Gmail API", "Transformers"],
     badges: ["Production Deployment", "Automation", "Assistive UX"],
     image: "/images/projects/mailmind.png",
-    github: "https://github.com/",
+    github: "https://github.com/Sankalp1729/MailMind-AI",
     demo: "#",
     problem:
       "Reduce inbox friction while keeping user control and context intact.",
@@ -177,7 +177,7 @@ export const projectItems: ProjectItem[] = [
     metrics: ["Multi Agent", "Shared Memory", "Context Layer"],
     badges: ["Cross Platform Intelligence", "Orchestration", "Runtime Memory"],
     image: "/images/projects/unified-context.png",
-    github: "https://github.com/",
+    github: "https://github.com/Sankalp1729/Unified-Context-AI-System",
     demo: "#",
     problem:
       "Keep agents coordinated with a common memory and decision context.",
@@ -191,7 +191,7 @@ export const projectItems: ProjectItem[] = [
     metrics: ["CNN", "LSTM", "CV"],
     badges: ["Speech Processing", "Real-time Inference", "Research-to-Product"],
     image: "/images/projects/emotion-ai.png",
-    github: "https://github.com/",
+    github: "https://github.com/Sankalp1729/Multimodal-Emotion-Recognition",
     demo: "#",
     problem:
       "Fuse multiple signals into a stable, usable inference experience.",
@@ -219,7 +219,7 @@ export const showcaseProjects: ShowcaseProject[] = [
       "Streamlit",
     ],
     accent: "blue",
-    github: "https://github.com/Sankalp1729",
+    github: "https://github.com/Sankalp1729/DocuMind-AI",
     demo: "#",
     architectureNotes: [
       "FastAPI backend handles ingestion, retrieval, and answer orchestration.",
@@ -249,7 +249,7 @@ export const showcaseProjects: ShowcaseProject[] = [
       "GitHub Actions",
     ],
     accent: "purple",
-    github: "https://github.com/Sankalp1729",
+    github: "https://github.com/Sankalp1729/MailMind-AI",
     demo: "#",
     architectureNotes: [
       "OAuth 2.0 flow connects Gmail securely to the classification pipeline.",
@@ -272,7 +272,7 @@ export const showcaseProjects: ShowcaseProject[] = [
     ],
     tech: ["Multi-Agent", "Flask", "SQLite", "HuggingFace", "RL", "Streamlit"],
     accent: "teal",
-    github: "https://github.com/Sankalp1729",
+    github: "https://github.com/Sankalp1729/Unified-Context-AI-System",
     demo: "#",
     architectureNotes: [
       "Shared SQLite memory keeps agents aligned across platform contexts.",
@@ -282,7 +282,7 @@ export const showcaseProjects: ShowcaseProject[] = [
   },
   {
     number: "04",
-    title: "Multimodal Emotion Recognition",
+  github: "https://github.com/Sankalp1729/Multimodal-Emotion-Recognition",
     tagline: "Three-modal deep learning fusion system",
     description:
       "CNN facial expression + MFCC speech features + LSTM text sentiment fused for 6-class emotion recognition. Ablation study across early, late, and hybrid fusion strategies. Late-fusion outperformed all single-modality baselines.",
@@ -595,7 +595,7 @@ export const recognitionItems: CertificationShowcaseItem[] = [
   {
     issuer: "Smart India Hackathon 2025",
     title: "Internal Qualifier — Fasal Rakshak AI",
-    date: "June 2025",
+    date: "December 2025",
     org: "VPP College of Engineering",
     icon: "trophy",
   },

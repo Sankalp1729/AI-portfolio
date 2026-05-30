@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { cardLift, fadeUp } from "../../lib/animations";
@@ -31,17 +31,24 @@ function CountUp({
   value,
   suffix,
   active,
+  forceComplete,
 }: {
   value: number;
   suffix: string;
   active: boolean;
+  forceComplete: boolean;
 }) {
   const prefersReducedMotion = useReducedMotion();
   const [current, setCurrent] = useState(prefersReducedMotion ? value : 0);
 
   useEffect(() => {
-    if (!active || prefersReducedMotion) {
+    if (forceComplete || prefersReducedMotion) {
       setCurrent(value);
+      return;
+    }
+
+    if (!active) {
+      setCurrent(0);
       return;
     }
 
@@ -61,7 +68,7 @@ function CountUp({
 
     frameId = window.requestAnimationFrame(tick);
     return () => window.cancelAnimationFrame(frameId);
-  }, [active, prefersReducedMotion, value]);
+  }, [active, forceComplete, prefersReducedMotion, value]);
 
   return (
     <span>
@@ -73,7 +80,9 @@ function CountUp({
 
 function StatCard({ value, suffix, label }: (typeof stats)[number]) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(cardRef, { once: true, amount: 0.45 });
   const [active, setActive] = useState(false);
+  const [forceComplete, setForceComplete] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
@@ -82,22 +91,19 @@ function StatCard({ value, suffix, label }: (typeof stats)[number]) {
       return;
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setActive(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.45 },
-    );
+    const fallbackTimer = window.setTimeout(() => {
+      setForceComplete(true);
+      setActive(true);
+    }, 2000);
 
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => observer.disconnect();
+    return () => window.clearTimeout(fallbackTimer);
   }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    if (isInView) {
+      setActive(true);
+    }
+  }, [isInView]);
 
   return (
     <motion.div
@@ -107,7 +113,12 @@ function StatCard({ value, suffix, label }: (typeof stats)[number]) {
       whileHover={{ y: -4 }}
     >
       <div className="text-3xl font-semibold text-white">
-        <CountUp value={value} suffix={suffix} active={active} />
+        <CountUp
+          value={value}
+          suffix={suffix}
+          active={active}
+          forceComplete={forceComplete}
+        />
       </div>
       <div className="mt-2 text-xs uppercase tracking-[0.3em] text-cyan-100/50">
         {label}
@@ -151,7 +162,7 @@ export default function AboutSection() {
           <div className="overflow-hidden rounded-[36px] border border-cyan-300/25 bg-[rgba(255,255,255,0.04)] p-4 shadow-[0_0_42px_rgba(59,130,246,0.14)] backdrop-blur-2xl">
             <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-black/25">
               <Image
-                src="/images/profile.svg"
+                src="/images/profile.jpg"
                 alt="Sankalp Pingalwad"
                 width={1200}
                 height={1400}

@@ -12,6 +12,8 @@ type FormState = {
   message: string;
 };
 
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+
 function ContactIcon({
   icon,
 }: {
@@ -138,7 +140,9 @@ function ContactRow({
 export default function ContactSection() {
   const prefersReducedMotion = useReducedMotion();
   const [copied, setCopied] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [submitState, setSubmitState] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
   const [form, setForm] = useState<FormState>({
     name: "",
     email: "",
@@ -152,25 +156,39 @@ export default function ContactSection() {
     window.setTimeout(() => setCopied(false), 1600);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const mailto = new URL("mailto:pingalwadsankalp1729@gmail.com");
-    mailto.searchParams.set(
-      "subject",
-      form.subject || `Portfolio inquiry from ${form.name}`,
-    );
-    mailto.searchParams.set(
-      "body",
-      [`Name: ${form.name}`, `Email: ${form.email}`, "", form.message].join(
-        "\n",
-      ),
-    );
+    if (submitState === "submitting") {
+      return;
+    }
 
-    setSubmitted(true);
-    window.open(mailto.toString(), "_blank", "noopener,noreferrer");
-    window.setTimeout(() => setSubmitted(false), 2200);
-    setForm({ name: "", email: "", subject: "", message: "" });
+    setSubmitState("submitting");
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          message: form.message,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Form submission failed");
+      }
+
+      setSubmitState("success");
+      setForm({ name: "", email: "", subject: "", message: "" });
+    } catch {
+      setSubmitState("error");
+    }
   };
 
   return (
@@ -328,9 +346,10 @@ export default function ContactSection() {
                 className="inline-flex min-w-48 items-center justify-center rounded-full bg-blue-500 px-8 py-3.5 text-sm font-medium text-white shadow-[0_0_24px_rgba(59,130,246,0.22)] transition hover:bg-blue-600"
                 whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
                 whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
+                disabled={submitState === "submitting"}
               >
                 <AnimatePresence mode="wait">
-                  {submitted ? (
+                  {submitState === "success" ? (
                     <motion.span
                       key="success"
                       initial={{ opacity: 0, y: 8 }}
@@ -352,7 +371,16 @@ export default function ContactSection() {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      Message ready
+                      Message sent!
+                    </motion.span>
+                  ) : submitState === "submitting" ? (
+                    <motion.span
+                      key="submitting"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                    >
+                      Sending...
                     </motion.span>
                   ) : (
                     <motion.span
@@ -367,6 +395,40 @@ export default function ContactSection() {
                 </AnimatePresence>
               </motion.button>
             </div>
+
+            {submitState === "success" ? (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-4 flex items-center gap-2 text-sm text-emerald-300"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-5 w-5"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M5 12.5 9.2 16.7 19 7"
+                    stroke="currentColor"
+                    strokeWidth="2.3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                Message sent! I&apos;ll get back to you soon.
+              </motion.div>
+            ) : null}
+
+            {submitState === "error" ? (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-4 text-sm text-rose-300"
+              >
+                Something went wrong. Email me directly.
+              </motion.div>
+            ) : null}
           </motion.form>
         </div>
 

@@ -144,7 +144,7 @@ export default function CertificationsSection() {
         </div>
 
         <div className="grid gap-5 md:grid-cols-3">
-          {recognitionItems.map((item, index) => (
+          {recognitionItems.map((item) => (
             <motion.article
               key={item.title}
               className="relative overflow-hidden rounded-[30px] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] p-6 backdrop-blur-2xl transition hover:border-blue-400/30 hover:shadow-[0_0_32px_rgba(59,130,246,0.14)]"
@@ -159,9 +159,6 @@ export default function CertificationsSection() {
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-black/25 shadow-[0_0_24px_rgba(59,130,246,0.15)]">
                   {icons[item.icon]}
                 </div>
-                <div className="text-right text-xs uppercase tracking-[0.3em] text-slate-400">
-                  Card {index + 1}
-                </div>
               </div>
 
               <h3 className="mt-6 text-2xl font-semibold text-white">
@@ -170,11 +167,6 @@ export default function CertificationsSection() {
               <div className="mt-3 inline-flex rounded-full border border-blue-400/25 bg-blue-500/10 px-4 py-2 text-xs uppercase tracking-[0.32em] text-blue-100">
                 {item.date}
               </div>
-              {item.org ? (
-                <p className="mt-4 text-sm uppercase tracking-[0.28em] text-slate-400">
-                  {item.org}
-                </p>
-              ) : null}
             </motion.article>
           ))}
         </div>

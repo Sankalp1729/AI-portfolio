@@ -20,27 +20,27 @@ type ProjectCardProps = {
 const accentStyles = {
   blue: {
     line: "from-[var(--accent-blue)] to-[var(--accent-purple)]",
-    badge: "border-blue-400/25 text-blue-100",
+    badge: "border-blue-400/25 text-[var(--text-secondary)]",
     glow: "hover:shadow-[0_0_30px_rgba(59,130,246,0.2)]",
-    watermark: "text-blue-500/10",
+    watermark: "text-white/5",
   },
   purple: {
     line: "from-violet-400 to-fuchsia-500",
-    badge: "border-violet-400/25 text-violet-100",
+    badge: "border-violet-400/25 text-[var(--text-secondary)]",
     glow: "hover:shadow-[0_0_30px_rgba(168,85,247,0.2)]",
-    watermark: "text-violet-500/10",
+    watermark: "text-white/5",
   },
   teal: {
     line: "from-cyan-400 to-blue-500",
-    badge: "border-cyan-400/25 text-cyan-100",
+    badge: "border-cyan-400/25 text-[var(--text-secondary)]",
     glow: "hover:shadow-[0_0_30px_rgba(34,211,238,0.2)]",
-    watermark: "text-cyan-500/10",
+    watermark: "text-white/5",
   },
   coral: {
     line: "from-orange-400 to-rose-500",
-    badge: "border-orange-400/25 text-orange-100",
+    badge: "border-orange-400/25 text-[var(--text-secondary)]",
     glow: "hover:shadow-[0_0_30px_rgba(251,146,60,0.2)]",
-    watermark: "text-orange-500/10",
+    watermark: "text-white/5",
   },
 } as const;
 
@@ -57,7 +57,7 @@ export default function ProjectCard({
   const rotateX = useSpring(tiltX, { stiffness: 400, damping: 25 });
   const rotateY = useSpring(tiltY, { stiffness: 400, damping: 25 });
   const styles = accentStyles[project.accent];
-  const number = project.number ?? String(index + 1).padStart(2, "0");
+  const number = String(index + 1).padStart(2, "0");
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -157,7 +157,7 @@ export default function ProjectCard({
           type="button"
           data-hoverable="true"
           onClick={() => onToggle(index)}
-          className="text-sm text-[var(--accent-blue)] transition hover:text-blue-300"
+          className="text-sm text-[var(--text-secondary)] transition hover:text-[var(--accent-blue)]"
           aria-expanded={active}
         >
           {active ? "Collapse Details ↑" : "View Details →"}

@@ -6,7 +6,7 @@ export const skillCategories: SkillCategory[] = [
     group: "Languages",
     skills: ["Python", "SQL"],
     orbs: [
-      { label: "Py", x: 12, y: 18, delay: 0.05, size: 64 },
+      { label: "Python", x: 12, y: 18, delay: 0.05, size: 64 },
       { label: "SQL", x: 68, y: 16, delay: 0.12, size: 56 },
     ],
   },
@@ -103,7 +103,7 @@ export const skillCategories: SkillCategory[] = [
     orbs: [
       { label: "DB", x: 13, y: 16, delay: 0.05, size: 60 },
       { label: "FS", x: 69, y: 15, delay: 0.12, size: 56 },
-      { label: "SQ", x: 44, y: 72, delay: 0.18, size: 58 },
+      { label: "SQLite", x: 44, y: 72, delay: 0.18, size: 58 },
     ],
   },
   {

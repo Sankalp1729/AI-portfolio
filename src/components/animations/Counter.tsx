@@ -20,6 +20,7 @@ export default function Counter({
   const [count, setCount] = useState(0);
   const started = useRef(false);
   const ref = useRef<HTMLSpanElement>(null);
+  const displaySuffix = count > 0 ? suffix : "";
 
   useEffect(() => {
     const el = ref.current;
@@ -69,7 +70,7 @@ export default function Counter({
     <span ref={ref} className={className}>
       {prefix}
       {count}
-      {suffix}
+      {displaySuffix}
     </span>
   );
 }

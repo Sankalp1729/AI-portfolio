@@ -54,7 +54,7 @@ function SkillChip({ skill, index }: { skill: string; index: number }) {
 
 export default function SkillsSection() {
   const prefersReducedMotion = usePrefersReducedMotion();
-  const [activeTab, setActiveTab] = useState<TabKey>("LLMs");
+  const [activeTab, setActiveTab] = useState<TabKey>("Languages");
 
   const activeCategory = useMemo(
     () =>
@@ -92,7 +92,8 @@ export default function SkillsSection() {
             className="max-w-2xl text-lg text-[var(--text-secondary)]"
             variants={fadeUp}
           >
-            Everything I use to build, train, and ship AI systems.
+            A focused breakdown of the languages, models, and tools behind my
+            work.
           </motion.p>
         </div>
 

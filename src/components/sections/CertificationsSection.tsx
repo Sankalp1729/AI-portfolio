@@ -50,6 +50,43 @@ const icons = {
   trophy: <TrophyIcon />,
 } as const;
 
+type RecognitionCardProps = {
+  issuer: string;
+  title: string;
+  date: string;
+  org?: string;
+  icon: keyof typeof icons;
+};
+
+function RecognitionCard({ issuer, title, date, org, icon }: RecognitionCardProps) {
+  return (
+    <motion.article
+      data-hoverable="true"
+      className="relative overflow-hidden glass-panel p-6 transition hover:border-blue-400/30 hover:shadow-[0_0_32px_rgba(59,130,246,0.14)]"
+      variants={cardLift}
+      whileHover={{ y: -4 }}
+    >
+      <div className="absolute right-5 top-5 rounded-full border border-[var(--border)] bg-black/30 px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-[var(--text-muted)]">
+        {issuer}
+      </div>
+
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--border)] bg-black/25 shadow-[0_0_24px_rgba(59,130,246,0.15)]">
+        {icons[icon]}
+      </div>
+
+      <h3 className="mt-6 font-[family-name:var(--font-syne)] text-xl font-bold sm:text-2xl">
+        {title}
+      </h3>
+
+      {org ? <p className="mt-2 text-sm text-[var(--text-muted)]">{org}</p> : null}
+
+      <div className="mt-4 inline-flex rounded-full border border-blue-400/25 bg-blue-500/10 px-4 py-2 text-xs uppercase tracking-[0.32em] text-blue-100">
+        {date}
+      </div>
+    </motion.article>
+  );
+}
+
 export default function CertificationsSection() {
   return (
     <section
@@ -77,34 +114,15 @@ export default function CertificationsSection() {
         </motion.h2>
 
         <div className="grid gap-5 md:grid-cols-3">
-          {recognitionItems.map((item) => (
-            <motion.article
-              key={item.title}
-              data-hoverable="true"
-              className="relative overflow-hidden glass-panel p-6 transition hover:border-blue-400/30 hover:shadow-[0_0_32px_rgba(59,130,246,0.14)]"
-              variants={cardLift}
-              whileHover={{ y: -4 }}
-            >
-              <div className="absolute right-5 top-5 rounded-full border border-[var(--border)] bg-black/30 px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-[var(--text-muted)]">
-                {item.issuer}
-              </div>
-
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--border)] bg-black/25 shadow-[0_0_24px_rgba(59,130,246,0.15)]">
-                {icons[item.icon]}
-              </div>
-
-              <h3 className="mt-6 font-[family-name:var(--font-syne)] text-xl font-bold sm:text-2xl">
-                {item.title}
-              </h3>
-
-              {"org" in item && item.org ? (
-                <p className="mt-2 text-sm text-[var(--text-muted)]">{item.org}</p>
-              ) : null}
-
-              <div className="mt-4 inline-flex rounded-full border border-blue-400/25 bg-blue-500/10 px-4 py-2 text-xs uppercase tracking-[0.32em] text-blue-100">
-                {item.date}
-              </div>
-            </motion.article>
+          {recognitionItems.map(({ issuer, title, date, org, icon }) => (
+            <RecognitionCard
+              key={title}
+              issuer={issuer}
+              title={title}
+              date={date}
+              org={org}
+              icon={icon}
+            />
           ))}
         </div>
       </motion.div>

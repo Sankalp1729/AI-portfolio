@@ -84,6 +84,8 @@ type AvatarFigureProps = {
   onVideoEnd: () => void;
   isSettled: boolean;
   onToggleSettled: () => void;
+  isMuted: boolean;
+  onToggleMuted: () => void;
 };
 
 function AvatarFigure({
@@ -92,6 +94,8 @@ function AvatarFigure({
   onVideoEnd,
   isSettled,
   onToggleSettled,
+  isMuted,
+  onToggleMuted,
 }: AvatarFigureProps) {
   return (
     <div
@@ -99,16 +103,40 @@ function AvatarFigure({
       onPointerDown={onToggleSettled}
     >
       {introVideoSrc ? (
-        <video
-          src={introVideoSrc}
-          autoPlay
-          muted
-          playsInline
-          preload="none"
-          loop={false}
-          onEnded={onVideoEnd}
-          className="h-full w-full object-cover"
-        />
+        <>
+          <video
+            src={introVideoSrc}
+            autoPlay
+            muted={isMuted}
+            playsInline
+            preload="auto"
+            loop={false}
+            onEnded={onVideoEnd}
+            className="h-full w-full object-cover"
+          />
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleMuted();
+            }}
+            className="absolute bottom-4 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-blue-400/30 bg-[rgba(5,5,5,0.72)] text-white/90 shadow-[0_0_12px_rgba(59,130,246,0.25)] backdrop-blur-xl transition hover:scale-105"
+            aria-label={isMuted ? "Unmute audio" : "Mute audio"}
+          >
+            {isMuted ? (
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                <line x1="23" y1="9" x2="17" y2="15" />
+                <line x1="17" y1="9" x2="23" y2="15" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14" />
+              </svg>
+            )}
+          </button>
+        </>
       ) : (
         <>
           <ProfileImage
@@ -141,6 +169,7 @@ export default function AvatarIntro() {
   const [introVideoSrc, setIntroVideoSrc] = useState<string | null>(null);
   const [isOrbPaused, setIsOrbPaused] = useState(true);
   const [isAvatarSettled, setIsAvatarSettled] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
   const finishIntro = useCallback(() => {
     setShowIntro(false);
@@ -158,6 +187,7 @@ export default function AvatarIntro() {
     setIntroVideoSrc(null);
     setShowIntro(true);
     setIsReplay(true);
+    setIsMuted(true);
   }, []);
 
   const handleOrbToggle = useCallback(() => {
@@ -166,6 +196,10 @@ export default function AvatarIntro() {
 
   const handleAvatarToggle = useCallback(() => {
     setIsAvatarSettled((current) => !current);
+  }, []);
+
+  const handleMuteToggle = useCallback(() => {
+    setIsMuted((current) => !current);
   }, []);
 
   useEffect(() => {
@@ -300,6 +334,8 @@ export default function AvatarIntro() {
                     onVideoEnd={finishIntro}
                     isSettled={isAvatarSettled}
                     onToggleSettled={handleAvatarToggle}
+                    isMuted={isMuted}
+                    onToggleMuted={handleMuteToggle}
                   />
                 </motion.div>
 

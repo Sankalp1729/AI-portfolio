@@ -144,26 +144,42 @@ export default function ContactSection() {
       return;
     }
 
-    setSubmitState("submitting");
+    if (FORMSPREE_ENDPOINT && !FORMSPREE_ENDPOINT.includes("REPLACE_WITH_YOUR_ID")) {
+      setSubmitState("submitting");
 
-    try {
-      const response = await fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(form),
-      });
+      try {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(form),
+        });
 
-      if (!response.ok) {
-        throw new Error("Form submission failed");
+        if (!response.ok) {
+          throw new Error("Form submission failed");
+        }
+
+        setSubmitState("success");
+        setForm({ name: "", email: "", subject: "", message: "" });
+      } catch {
+        setSubmitState("error");
       }
+    } else {
+      // Fallback mailto: link behavior
+      const body = [
+        `Name: ${form.name}`,
+        `Email: ${form.email}`,
+        "",
+        form.message,
+      ].join("\n");
 
+      const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(form.subject || "Portfolio inquiry")}&body=${encodeURIComponent(body)}`;
+
+      window.location.href = mailto;
       setSubmitState("success");
       setForm({ name: "", email: "", subject: "", message: "" });
-    } catch {
-      setSubmitState("error");
     }
   };
 

@@ -28,7 +28,7 @@ function MarqueeTile({ project }: { project: ProjectTile }) {
     >
       {!imageError ? (
         <Image
-          src={`/projects/${project.id}.webp`}
+          src={`/projects/${project.id}.png`}
           alt={`${project.name} preview`}
           fill
           loading="lazy"

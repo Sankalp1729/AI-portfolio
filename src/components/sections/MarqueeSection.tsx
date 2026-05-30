@@ -62,8 +62,14 @@ export default function MarqueeSection() {
   // scrollYProgress 0 -> 1 maps to:
   // Row 1 x: "0px" -> "-300px"
   // Row 2 x: "-300px" -> "0px"
-  const x1 = useTransform(scrollYProgress, [0, 1], ["0px", "-300px"]);
-  const x2 = useTransform(scrollYProgress, [0, 1], ["-300px", "0px"]);
+  const x1 = useTransform(scrollYProgress, (v) => {
+    const val = Number.isNaN(v) ? 0 : v;
+    return `${val * -300}px`;
+  });
+  const x2 = useTransform(scrollYProgress, (v) => {
+    const val = Number.isNaN(v) ? 0 : v;
+    return `${-300 + val * 300}px`;
+  });
 
   // Tripled lists for seamless visual loop
   const row1Tiles = [...originalProjects, ...originalProjects, ...originalProjects];

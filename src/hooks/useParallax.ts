@@ -12,8 +12,11 @@ export function useParallax(speed = 0.15) {
     offset: ["start end", "end start"],
   });
 
-  // Map progress [0, 1] to a subtle vertical translation (e.g., -15% to 15%)
-  const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+  const y = useTransform(scrollYProgress, (v) => {
+    const val = Number.isNaN(v) ? 0.5 : v;
+    const pct = -15 + val * 30;
+    return `${pct}%`;
+  });
 
   return { ref, y };
 }

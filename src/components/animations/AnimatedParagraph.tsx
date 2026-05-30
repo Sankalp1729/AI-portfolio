@@ -27,7 +27,8 @@ export default function AnimatedParagraph({ text, className }: Props) {
       {chars.map((char, i) => {
         const start = i / chars.length;
         const end = start + 1 / chars.length + 0.1;
-        const opacity = useTransform(scrollYProgress, [start, end], [0.15, 1]);
+        const rawOpacity = useTransform(scrollYProgress, [start, end], [0.15, 1]);
+        const opacity = useTransform(rawOpacity, (v) => (Number.isNaN(v) ? 1 : v));
         return (
           <span key={i} style={{ position: "relative", display: "inline" }}>
             <span style={{ opacity: 0, userSelect: "none" }} aria-hidden>

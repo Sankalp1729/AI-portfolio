@@ -7,8 +7,7 @@ import {
   useReducedMotion,
   useSpring,
 } from "framer-motion";
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { ShowcaseProject } from "@/types";
 
 type ProjectCardProps = {
@@ -59,8 +58,6 @@ export default function ProjectCard({
   const rotateY = useSpring(tiltY, { stiffness: 400, damping: 25 });
   const styles = accentStyles[project.accent];
   const number = String(index + 1).padStart(2, "0");
-  const [imageError, setImageError] = useState(false);
-  const [imageLoading, setImageLoading] = useState(true);
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -68,11 +65,6 @@ export default function ProjectCard({
       tiltY.set(0);
     }
   }, [prefersReducedMotion, tiltX, tiltY]);
-
-  useEffect(() => {
-    setImageError(false);
-    setImageLoading(true);
-  }, [project.image]);
 
   const handlePointerMove = (event: React.PointerEvent<HTMLElement>) => {
     if (prefersReducedMotion) return;
@@ -131,32 +123,6 @@ export default function ProjectCard({
       </span>
 
       <div className="relative">
-        <div className="relative -mx-6 -mt-6 mb-6 h-48 overflow-hidden rounded-t-[22px] border-b border-[var(--border)]">
-          {imageLoading ? <div className="absolute inset-0 animate-pulse bg-white/5" /> : null}
-
-          {!imageError ? (
-            <Image
-              src={project.image}
-              alt={`${project.title} preview`}
-              fill
-              loading="lazy"
-              className="object-cover transition-transform duration-[400ms] group-hover:scale-105"
-              sizes="(max-width: 1280px) 100vw, 50vw"
-              onLoad={() => setImageLoading(false)}
-              onError={() => {
-                setImageError(true);
-                setImageLoading(false);
-              }}
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,var(--bg-card),rgba(59,130,246,0.15))]">
-              <span className="select-none font-[family-name:var(--font-syne)] text-sm uppercase tracking-[0.3em] text-white/20">
-                {project.title}
-              </span>
-            </div>
-          )}
-        </div>
-
         <h3 className="font-[family-name:var(--font-syne)] text-[22px] font-semibold leading-tight text-white">
           {project.title}
         </h3>

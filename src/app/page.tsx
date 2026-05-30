@@ -11,7 +11,7 @@ import Cursor from "@/components/ui/Cursor";
 
 export default function Home() {
   return (
-    <main className="overflow-x-hidden">
+    <main>
       <Cursor />
 
       <HeroSection />

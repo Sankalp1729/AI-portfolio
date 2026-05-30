@@ -120,6 +120,8 @@ function AvatarFigure({
               e.stopPropagation();
               onToggleMuted();
             }}
+            onPointerDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
             className="absolute bottom-4 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-blue-400/30 bg-[rgba(5,5,5,0.72)] text-white/90 shadow-[0_0_12px_rgba(59,130,246,0.25)] backdrop-blur-xl transition hover:scale-105"
             aria-label={isMuted ? "Unmute audio" : "Mute audio"}
           >
@@ -165,8 +167,8 @@ export default function AvatarIntro() {
   const [isReplay, setIsReplay] = useState(false);
   const [introVideoStatus, setIntroVideoStatus] = useState<
     "checking" | "available" | "missing"
-  >("checking");
-  const [introVideoSrc, setIntroVideoSrc] = useState<string | null>(null);
+  >("available");
+  const [introVideoSrc, setIntroVideoSrc] = useState<string | null>("/avatar/intro-video.mp4");
   const [isOrbPaused, setIsOrbPaused] = useState(true);
   const [isAvatarSettled, setIsAvatarSettled] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
@@ -183,8 +185,8 @@ export default function AvatarIntro() {
 
   const handleReplay = useCallback(() => {
     setShowOrb(false);
-    setIntroVideoStatus("checking");
-    setIntroVideoSrc(null);
+    setIntroVideoStatus("available");
+    setIntroVideoSrc("/avatar/intro-video.mp4");
     setShowIntro(true);
     setIsReplay(true);
     setIsMuted(true);
@@ -222,51 +224,6 @@ export default function AvatarIntro() {
     setShowIntro(true);
     window.sessionStorage.setItem(STORAGE_KEY, "1");
   }, [prefersReducedMotion]);
-
-  useEffect(() => {
-    if (!mounted || !showIntro || prefersReducedMotion) {
-      return;
-    }
-
-    let cancelled = false;
-    const controller = new AbortController();
-
-    const probeVideo = async () => {
-      for (const source of INTRO_VIDEO_SOURCES) {
-        try {
-          const response = await fetch(source, {
-            method: "HEAD",
-            cache: "no-store",
-            signal: controller.signal,
-          });
-
-          if (cancelled) {
-            return;
-          }
-
-          if (response.ok) {
-            setIntroVideoSrc(source);
-            setIntroVideoStatus("available");
-            return;
-          }
-        } catch {
-          // Try the next available source.
-        }
-      }
-
-      if (!cancelled) {
-        setIntroVideoSrc(null);
-        setIntroVideoStatus("missing");
-      }
-    };
-
-    void probeVideo();
-
-    return () => {
-      cancelled = true;
-      controller.abort();
-    };
-  }, [mounted, showIntro, prefersReducedMotion, isReplay]);
 
   useEffect(() => {
     if (!mounted || !showIntro || prefersReducedMotion) {

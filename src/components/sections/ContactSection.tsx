@@ -124,6 +124,7 @@ export default function ContactSection() {
   const [submitState, setSubmitState] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
+  const [isFallbackSuccess, setIsFallbackSuccess] = useState(false);
   const [form, setForm] = useState<FormState>({
     name: "",
     email: "",
@@ -161,6 +162,7 @@ export default function ContactSection() {
           throw new Error("Form submission failed");
         }
 
+        setIsFallbackSuccess(false);
         setSubmitState("success");
         setForm({ name: "", email: "", subject: "", message: "" });
       } catch {
@@ -177,7 +179,16 @@ export default function ContactSection() {
 
       const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(form.subject || "Portfolio inquiry")}&body=${encodeURIComponent(body)}`;
 
+      // Copy message to clipboard automatically as a fallback safety
+      try {
+        const clipboardText = `Name: ${form.name}\nEmail: ${form.email}\nSubject: ${form.subject || "Portfolio inquiry"}\n\nMessage:\n${form.message}`;
+        void navigator.clipboard.writeText(clipboardText);
+      } catch (err) {
+        // Fallback silently if clipboard is blocked
+      }
+
       window.location.href = mailto;
+      setIsFallbackSuccess(true);
       setSubmitState("success");
       setForm({ name: "", email: "", subject: "", message: "" });
     }
@@ -256,7 +267,6 @@ export default function ContactSection() {
             onSubmit={handleSubmit}
             className="glass-panel p-6 sm:p-8"
             variants={fadeUp}
-            noValidate
           >
             <AnimatePresence mode="wait">
               {submitState === "success" ? (
@@ -279,15 +289,34 @@ export default function ContactSection() {
                       />
                     </svg>
                   </div>
-                  <h3 className="mt-6 font-[family-name:var(--font-syne)] text-2xl font-bold text-white">
-                    Message sent!
-                  </h3>
-                  <p className="mt-2 text-base text-[var(--text-secondary)]">
-                    I&apos;ll get back to you soon.
-                  </p>
+                  {isFallbackSuccess ? (
+                    <>
+                      <h3 className="mt-6 font-[family-name:var(--font-syne)] text-2xl font-bold text-white">
+                        Opening Email...
+                      </h3>
+                      <p className="mt-3 max-w-md text-sm leading-relaxed text-[var(--text-secondary)] px-4">
+                        Your message has been <strong className="text-[var(--accent-blue)]">automatically copied to your clipboard</strong>! If your email client doesn&apos;t open, you can paste it directly into an email to:
+                      </p>
+                      <div className="mt-3 rounded-xl bg-black/35 px-4 py-2 border border-white/5 font-mono text-xs text-white/95 select-all">
+                        {CONTACT_EMAIL}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <h3 className="mt-6 font-[family-name:var(--font-syne)] text-2xl font-bold text-white">
+                        Message sent!
+                      </h3>
+                      <p className="mt-2 text-base text-[var(--text-secondary)]">
+                        I&apos;ll get back to you soon.
+                      </p>
+                    </>
+                  )}
                   <button
                     type="button"
-                    onClick={() => setSubmitState("idle")}
+                    onClick={() => {
+                      setSubmitState("idle");
+                      setIsFallbackSuccess(false);
+                    }}
                     className="mt-6 text-xs uppercase tracking-[0.28em] text-[var(--text-muted)] transition hover:text-[var(--accent-blue)]"
                   >
                     Send another message

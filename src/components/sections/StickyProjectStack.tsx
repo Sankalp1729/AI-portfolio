@@ -34,16 +34,17 @@ export default function StickyProjectStack({ projects }: StickyProjectStackProps
         // targetScale = 1 - (n - 1 - i) * 0.04
         const targetScale = 1 - (totalCards - 1 - index) * 0.04;
         const startProgress = index / totalCards;
-        const scale = useTransform(
+        const rawScale = useTransform(
           scrollYProgress,
           [startProgress, 1],
           [1, targetScale]
         );
+        const scale = useTransform(rawScale, (v) => (Number.isNaN(v) ? 1 : v));
 
         return (
           <div
             key={project.number}
-            className="sticky h-[100vh] w-full flex items-start justify-center"
+            className="sticky h-auto w-full flex items-start justify-center mb-12 sm:mb-16"
             style={{
               position: "sticky",
               top: "80px",

@@ -8,17 +8,17 @@ import { siteConfig } from "@/lib/data";
 import { fontVariables } from "@/lib/fonts";
 
 export const metadata: Metadata = {
-  title: "Sankalp Pingalwad — AI Engineer",
+  title: "Sankalp Pingalwad — AI Product & Engineer",
   description:
-    "Final-year AI Engineering student building production RAG systems, multi-agent architectures, and deployed AI products. Based in Mumbai.",
+    "Final-year AI Product & Engineering student building production RAG systems, multi-agent architectures, and deployed AI products. Based in Mumbai.",
   metadataBase: new URL("https://sankalppingalwad.vercel.app"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Sankalp Pingalwad — AI Engineer",
+    title: "Sankalp Pingalwad — AI Product & Engineer",
     description:
-      "Final-year AI Engineering student building production RAG systems, multi-agent architectures, and deployed AI products. Based in Mumbai.",
+      "Final-year AI Product & Engineering student building production RAG systems, multi-agent architectures, and deployed AI products. Based in Mumbai.",
     url: "/",
     siteName: "Sankalp Pingalwad",
     images: [
@@ -33,9 +33,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sankalp Pingalwad — AI Engineer",
+    title: "Sankalp Pingalwad — AI Product & Engineer",
     description:
-      "Final-year AI Engineering student building production RAG systems, multi-agent architectures, and deployed AI products. Based in Mumbai.",
+      "Final-year AI Product & Engineering student building production RAG systems, multi-agent architectures, and deployed AI products. Based in Mumbai.",
     images: ["/opengraph-image"],
   },
 };
@@ -62,7 +62,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               name: siteConfig.name,
-              jobTitle: "AI Engineer",
+              jobTitle: "AI Product & Engineer",
               email: siteConfig.email,
               url: "https://sankalppingalwad.vercel.app",
               sameAs: [siteConfig.github, siteConfig.linkedin],

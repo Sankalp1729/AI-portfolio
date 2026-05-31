@@ -61,12 +61,10 @@ export default function AboutSection() {
               <div className="relative min-h-[420px] w-full">
                 {!imageError ? (
                   <Image
-                    src="/images/profile.jpg"
-                    alt="Sankalp Pingalwad - AI Engineer"
+                    src="/profile/sankalp.webp"
+                    alt="Sankalp Pingalwad - AI Product & Engineer"
                     fill
-                    priority
-                    className="object-cover"
-                    style={{ objectPosition: "top center" }}
+                    className="object-cover transition-transform duration-500 hover:scale-105"
                     sizes="(max-width: 1024px) 100vw, 45vw"
                     onError={() => setImageError(true)}
                   />
@@ -83,7 +81,7 @@ export default function AboutSection() {
               </div>
               <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(0,0,0,0.45))]" />
               <span className="absolute left-4 top-4 rounded-full border border-blue-400/35 bg-[rgba(5,5,5,0.65)] px-4 py-2 text-xs uppercase tracking-[0.32em] text-white/85 backdrop-blur-xl">
-                AI Engineer
+                AI Product & Engineer
               </span>
               <span className="absolute right-4 top-16 rounded-full border border-blue-400/35 bg-[rgba(5,5,5,0.65)] px-4 py-2 text-xs uppercase tracking-[0.32em] text-white/85 backdrop-blur-xl">
                 Open to Work

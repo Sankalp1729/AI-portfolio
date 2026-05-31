@@ -9,7 +9,7 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 const STORAGE_KEY = "sp-avatar-intro-seen";
 const INTRO_TEXT = `Welcome.
 
-I'm Sankalp — an AI Engineer building intelligent systems, multi-agent architectures, and production-ready AI products.
+I'm Sankalp — an AI Product & Engineer building intelligent systems, multi-agent architectures, and production-ready AI products.
 
 I create technology that doesn't just process data — it understands, reasons, and acts.
 

@@ -2,9 +2,9 @@ import type { SiteConfig } from "@/types";
 
 export const siteConfig: SiteConfig = {
   name: "Sankalp Pingalwad",
-  title: "AI Engineer",
+  title: "AI Product & Engineer",
   description:
-    "Final-year AI Engineering student building production RAG systems, multi-agent architectures, and deployed AI products. Based in Mumbai.",
+    "Final-year AI Product & Engineering student building production RAG systems, multi-agent architectures, and deployed AI products. Based in Mumbai.",
   home: "/",
   resume: "/resume/resume.pdf",
   github: "https://github.com/Sankalp1729",
@@ -27,7 +27,7 @@ export const navItems = [
 ] as const;
 
 export const heroRoles = [
-  "AI Engineer",
+  "AI Product & Engineer",
   "ML Engineer",
   "Data Scientist",
   "Builder of Intelligent Systems",

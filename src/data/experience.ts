@@ -4,7 +4,7 @@ export const experienceShowcase: ExperienceShowcaseItem = {
   company: "Blackhole Inferverse",
   role: "AI / ML Engineering Intern",
   period: "Sep 2025 – March 2026",
-  location: "Remote",
+  location: "Mumbai, India",
   logo: "BI",
   bullets: [
     "Built production News-AI pipeline (4-person team): NLP classification + multi-agent summarisation, 500+ articles/run at 88%+ accuracy",

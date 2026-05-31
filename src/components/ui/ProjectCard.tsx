@@ -155,14 +155,16 @@ export default function ProjectCard({
           >
             GitHub
           </a>
-          {(project.title === "MailMind AI" || project.title === "DocuMind AI" || project.title === "Unified Context AI System") && (
+          {(project.title === "MailMind AI" || project.title === "DocuMind AI" || project.title === "Unified Context AI System" || project.title === "Multimodal Emotion Recognition") && (
             <Link
               href={
                 project.title === "MailMind AI"
                   ? "/case-study/mailmind"
                   : project.title === "DocuMind AI"
                   ? "/case-study/documind"
-                  : "/case-study/unified-context"
+                  : project.title === "Unified Context AI System"
+                  ? "/case-study/unified-context"
+                  : "/case-study/multimodal-emotion"
               }
               data-hoverable="true"
               className={`text-sm font-medium transition duration-300 ${
@@ -170,6 +172,8 @@ export default function ProjectCard({
                   ? "text-[var(--accent-purple)] hover:text-purple-300"
                   : project.accent === "teal"
                   ? "text-[#14B8A6] hover:text-teal-300"
+                  : project.accent === "coral"
+                  ? "text-[#FB923C] hover:text-orange-300"
                   : "text-[var(--accent-blue)] hover:text-blue-300"
               }`}
             >
@@ -239,14 +243,16 @@ export default function ProjectCard({
                   >
                     GitHub
                   </a>
-                  {project.title === "MailMind AI" || project.title === "DocuMind AI" || project.title === "Unified Context AI System" ? (
+                  {project.title === "MailMind AI" || project.title === "DocuMind AI" || project.title === "Unified Context AI System" || project.title === "Multimodal Emotion Recognition" ? (
                     <Link
                       href={
                         project.title === "MailMind AI"
                           ? "/case-study/mailmind"
                           : project.title === "DocuMind AI"
                           ? "/case-study/documind"
-                          : "/case-study/unified-context"
+                          : project.title === "Unified Context AI System"
+                          ? "/case-study/unified-context"
+                          : "/case-study/multimodal-emotion"
                       }
                       data-hoverable="true"
                       className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.28em] transition ${
@@ -254,6 +260,8 @@ export default function ProjectCard({
                           ? "border-purple-400/40 bg-purple-500/10 text-purple-100 hover:bg-purple-500/20"
                           : project.accent === "teal"
                           ? "border-teal-400/40 bg-teal-500/10 text-teal-100 hover:bg-teal-500/20"
+                          : project.accent === "coral"
+                          ? "border-orange-400/40 bg-orange-500/10 text-orange-100 hover:bg-orange-500/20"
                           : "border-blue-400/40 bg-blue-500/10 text-blue-100 hover:bg-blue-500/20"
                       }`}
                     >

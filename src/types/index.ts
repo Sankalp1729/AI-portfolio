@@ -81,3 +81,79 @@ export type SiteConfig = {
   location: string;
   education: string;
 };
+
+export type CaseStudyData = {
+  title: string;
+  tagline: string;
+  tags: string[];
+  stats: { value: string; label: string }[];
+  accentColor: string;
+  overview: {
+    description: string;
+    fullDescription?: string;
+    role: string;
+    timeline: string;
+    stack: string[];
+  };
+  problem: {
+    heading: string;
+    quote: string;
+    cards: { title: string; desc: string }[];
+    whyBuilt: string;
+  };
+  research: {
+    heading: string;
+    approach: string;
+    insights: { title: string; desc: string }[];
+    personas: {
+      name: string;
+      role: string;
+      pain: string;
+      need: string;
+      quote: string;
+      tag: string;
+    }[];
+  };
+  solution: {
+    heading: string;
+    decisions: {
+      title: string;
+      choice: string;
+      rationale: string;
+      tradeoff: string;
+    }[];
+  };
+  architecture: {
+    heading: string;
+    steps: {
+      title: string;
+      subtitle: string;
+      desc: string;
+    }[];
+    optimization?: {
+      title: string;
+      bottleneck: string;
+      fix: string;
+    };
+  };
+  tradeoffs: {
+    decision: string;
+    chose: string;
+    rejected: string;
+    why: string;
+  }[];
+  metrics: {
+    value: string;
+    label: string;
+  }[];
+  reflection: {
+    heading: string;
+    future: {
+      title: string;
+      desc: string;
+      priority: "High" | "Medium" | "Low";
+    }[];
+    closing: string;
+  };
+};
+

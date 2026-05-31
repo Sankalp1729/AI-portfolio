@@ -155,11 +155,15 @@ export default function ProjectCard({
           >
             GitHub
           </a>
-          {project.title === "MailMind AI" && (
+          {(project.title === "MailMind AI" || project.title === "DocuMind AI") && (
             <Link
-              href="/case-study/mailmind"
+              href={project.title === "MailMind AI" ? "/case-study/mailmind" : "/case-study/documind"}
               data-hoverable="true"
-              className="text-sm text-[var(--accent-purple)] hover:text-purple-300 font-medium transition duration-300"
+              className={`text-sm font-medium transition duration-300 ${
+                project.accent === "purple"
+                  ? "text-[var(--accent-purple)] hover:text-purple-300"
+                  : "text-[var(--accent-blue)] hover:text-blue-300"
+              }`}
             >
               Case Study ➔
             </Link>
@@ -227,11 +231,15 @@ export default function ProjectCard({
                   >
                     GitHub
                   </a>
-                  {project.title === "MailMind AI" ? (
+                  {project.title === "MailMind AI" || project.title === "DocuMind AI" ? (
                     <Link
-                      href="/case-study/mailmind"
+                      href={project.title === "MailMind AI" ? "/case-study/mailmind" : "/case-study/documind"}
                       data-hoverable="true"
-                      className="rounded-full border border-purple-400/40 bg-purple-500/10 px-4 py-2 text-xs uppercase tracking-[0.28em] text-purple-100 transition hover:bg-purple-500/20"
+                      className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.28em] transition ${
+                        project.accent === "purple"
+                          ? "border-purple-400/40 bg-purple-500/10 text-purple-100 hover:bg-purple-500/20"
+                          : "border-blue-400/40 bg-blue-500/10 text-blue-100 hover:bg-blue-500/20"
+                      }`}
                     >
                       Case Study
                     </Link>

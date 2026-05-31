@@ -134,7 +134,7 @@ function AvatarFigure({
       ) : (
         <>
           <ProfileImage
-            src="/profile/sankalp.webp"
+            src="/profile/sankalp-coat.jpeg"
             alt="Sankalp Pingalwad holographic avatar"
             className="h-full w-full"
           />

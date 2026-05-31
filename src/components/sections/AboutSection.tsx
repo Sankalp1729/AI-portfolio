@@ -60,7 +60,7 @@ export default function AboutSection() {
               <div className="relative min-h-[420px] w-full">
                 {!imageError ? (
                   <Image
-                    src="/profile/sankalp.webp"
+                    src="/profile/sankalp-coat.jpeg"
                     alt="Sankalp Pingalwad - AI Product Builder"
                     fill
                     className="object-cover transition-transform duration-500 hover:scale-105"

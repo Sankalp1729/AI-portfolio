@@ -49,28 +49,30 @@ export default function AboutSection() {
         whileInView="visible"
         viewport={viewportReveal}
       >
-        <motion.div className="relative" variants={fadeUp}>
+        <motion.div className="relative h-[520px] sm:h-[580px] md:h-[620px]" variants={fadeUp}>
           <div className="absolute inset-0 -z-10 rounded-[36px] bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.14),transparent_54%)] blur-3xl" />
           <motion.div
             ref={magnetRef}
             style={{ x: magnetX, y: magnetY }}
             className="overflow-hidden rounded-[36px] border border-[var(--accent-blue)]/30 bg-[var(--glass-bg)] p-4 shadow-[0_0_42px_rgba(59,130,246,0.18)] backdrop-blur-2xl"
           >
-            <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-black/25">
-              <div className="relative min-h-[420px] w-full">
+            <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-black/25" style={{ aspectRatio: "3/4" }}>
+              <div className="relative w-full h-full">
                 {!imageError ? (
                   <Image
                     src="/profile/sankalp-coat.jpeg"
-                    alt="Sankalp Pingalwad - AI Product Builder"
-                    fill
-                    className="object-cover transition-transform duration-500 hover:scale-105"
+                    alt="Sankalp Pingalwad — AI Product Builder"
+                    width={1200}
+                    height={1400}
+                    priority={true}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    style={{ objectPosition: "center 15%" }}
                     sizes="(max-width: 1024px) 100vw, 45vw"
                     onError={() => setImageError(true)}
                   />
                 ) : (
                   <div
                     className="absolute inset-0 flex items-center justify-center bg-[linear-gradient(135deg,#0a0a1a,rgba(59,130,246,0.2))]"
-                    style={{ minHeight: "420px" }}
                   >
                     <span className="font-[family-name:var(--font-syne)] text-[4rem] font-bold text-[#3B82F6]">
                       SP

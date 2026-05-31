@@ -98,7 +98,7 @@ export default function HeroSection() {
               className="mb-5 text-sm uppercase tracking-[0.42em] text-[var(--text-secondary)]"
               variants={fadeUp}
             >
-              Available for opportunities · Mumbai, India
+              AI Product Builder · Mumbai, India · Open to PM Roles
             </motion.p>
 
             <motion.h1

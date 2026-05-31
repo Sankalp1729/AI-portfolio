@@ -47,7 +47,7 @@ export default function OpenGraphImage() {
 					Sankalp Pingalwad
 				</div>
 				<div style={{ fontSize: 28, color: "rgba(226,232,240,0.8)", lineHeight: 1.35, maxWidth: 700 }}>
-					AI Engineer building production RAG systems, multi-agent architectures, and deployed AI products.
+					AI Product Builder building production RAG systems, multi-agent architectures, and deployed AI products.
 				</div>
 			</div>
 
@@ -64,7 +64,7 @@ export default function OpenGraphImage() {
 					Mumbai
 				</div>
 				<div style={{ fontSize: 22, color: "rgba(248,250,252,0.72)" }}>
-					Final-year AI Engineering student
+					Final-year AI student
 				</div>
 			</div>
 		</div>,

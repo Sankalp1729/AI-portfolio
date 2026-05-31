@@ -8,30 +8,18 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 const tabOrder = [
   "Languages",
-  "ML",
-  "AI/ML",
   "LLMs",
-  "Vision",
   "Deploy",
-  "Data",
   "DB",
-  "Viz",
-  "Tools",
 ] as const;
 
 type TabKey = (typeof tabOrder)[number];
 
 const tabLabels: Record<TabKey, string> = {
   Languages: "Languages",
-  ML: "ML",
-  "AI/ML": "AI/ML",
   LLMs: "LLMs & Agents",
-  Vision: "Vision & Speech",
   Deploy: "Deployment",
-  Data: "Data Engineering",
   DB: "Databases",
-  Viz: "Visualization",
-  Tools: "Tools",
 };
 
 function SkillChip({ skill, index }: { skill: string; index: number }) {

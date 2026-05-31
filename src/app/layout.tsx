@@ -8,17 +8,17 @@ import { siteConfig } from "@/lib/data";
 import { fontVariables } from "@/lib/fonts";
 
 export const metadata: Metadata = {
-  title: "Sankalp Pingalwad — AI Product & Engineer",
+  title: "Sankalp Pingalwad — AI Product Builder",
   description:
-    "Final-year AI Product & Engineering student building production RAG systems, multi-agent architectures, and deployed AI products. Based in Mumbai.",
+    "Final-year AI student in Mumbai who builds and ships AI products — email AI, RAG systems, multi-agent architectures. Thinking about product, not just code.",
   metadataBase: new URL("https://sankalppingalwad.vercel.app"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Sankalp Pingalwad — AI Product & Engineer",
+    title: "Sankalp Pingalwad — AI Product Builder",
     description:
-      "Final-year AI Product & Engineering student building production RAG systems, multi-agent architectures, and deployed AI products. Based in Mumbai.",
+      "Final-year AI student in Mumbai who builds and ships AI products — email AI, RAG systems, multi-agent architectures. Thinking about product, not just code.",
     url: "/",
     siteName: "Sankalp Pingalwad",
     images: [
@@ -33,9 +33,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sankalp Pingalwad — AI Product & Engineer",
+    title: "Sankalp Pingalwad — AI Product Builder",
     description:
-      "Final-year AI Product & Engineering student building production RAG systems, multi-agent architectures, and deployed AI products. Based in Mumbai.",
+      "Final-year AI student in Mumbai who builds and ships AI products — email AI, RAG systems, multi-agent architectures. Thinking about product, not just code.",
     images: ["/opengraph-image"],
   },
 };
@@ -62,7 +62,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               name: siteConfig.name,
-              jobTitle: "AI Product & Engineer",
+              jobTitle: "AI Product Builder",
               email: siteConfig.email,
               url: "https://sankalppingalwad.vercel.app",
               sameAs: [siteConfig.github, siteConfig.linkedin],

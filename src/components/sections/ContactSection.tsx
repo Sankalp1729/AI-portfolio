@@ -217,14 +217,15 @@ export default function ContactSection() {
             className="font-[family-name:var(--font-syne)] text-4xl font-bold tracking-tight sm:text-5xl"
             variants={fadeUp}
           >
-            Let&apos;s Build Intelligent Systems Together
+            Let&apos;s Build AI Products Together
           </motion.h2>
           <motion.p
             className="max-w-3xl text-base leading-8 text-[var(--text-secondary)] sm:text-lg"
             variants={fadeUp}
           >
-            Open to full-time AI/ML engineering roles, research collaborations,
-            and consulting.
+            Open to AI PM roles at early-stage startups.
+            <br />
+            Mumbai, India.
           </motion.p>
         </div>
 

@@ -16,7 +16,7 @@ export const documindCaseStudy: CaseStudyData = {
       "DocuMind AI is a RAG-powered multi-document Q&A platform that lets users upload large PDFs and ask natural language questions, receiving source-attributed answers in under 800 milliseconds.",
     fullDescription:
       "It is deployed publicly on HuggingFace Spaces, built with a FastAPI REST backend, FAISS vector store, and sentence-transformers for semantic retrieval — production grade, not a prototype.",
-    role: "Product Manager & Full-Stack AI Engineer",
+    role: "Product Manager & Full-Stack AI Product Builder",
     timeline: "4 Weeks (Q1 2025)",
     stack: ["FastAPI", "FAISS", "Sentence-Transformers", "LangChain", "HuggingFace"],
   },

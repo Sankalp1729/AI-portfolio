@@ -8,7 +8,6 @@ import { aboutStats } from "@/data/site";
 import { cardLift, fadeUp, sectionStagger, viewportReveal } from "@/lib/animations";
 import { useMagnet } from "@/hooks/useMagnet";
 import { useParallax } from "@/hooks/useParallax";
-import AnimatedParagraph from "@/components/animations/AnimatedParagraph";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 30, scale: 0.96 },
@@ -62,7 +61,7 @@ export default function AboutSection() {
                 {!imageError ? (
                   <Image
                     src="/profile/sankalp.webp"
-                    alt="Sankalp Pingalwad - AI Product & Engineer"
+                    alt="Sankalp Pingalwad - AI Product Builder"
                     fill
                     className="object-cover transition-transform duration-500 hover:scale-105"
                     sizes="(max-width: 1024px) 100vw, 45vw"
@@ -81,7 +80,7 @@ export default function AboutSection() {
               </div>
               <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(0,0,0,0.45))]" />
               <span className="absolute left-4 top-4 rounded-full border border-blue-400/35 bg-[rgba(5,5,5,0.65)] px-4 py-2 text-xs uppercase tracking-[0.32em] text-white/85 backdrop-blur-xl">
-                AI Product & Engineer
+                AI Product Builder
               </span>
               <span className="absolute right-4 top-16 rounded-full border border-blue-400/35 bg-[rgba(5,5,5,0.65)] px-4 py-2 text-xs uppercase tracking-[0.32em] text-white/85 backdrop-blur-xl">
                 Open to Work
@@ -110,18 +109,24 @@ export default function AboutSection() {
           </div>
 
           <div className="space-y-5 text-base leading-8 text-[var(--text-secondary)] sm:text-lg">
-            <AnimatedParagraph
+            <motion.p
               className="text-base leading-8 text-[var(--text-secondary)] sm:text-lg"
-              text="Final-year B.E. student in Artificial Intelligence & Data Science at VPPCE Mumbai, graduating 2026. I've spent the last year building and deploying real production AI systems — not toy demos."
-            />
-            <AnimatedParagraph
+              variants={fadeUp}
+            >
+              Final-year B.E. student in Artificial Intelligence & Data Science at VPPCE Mumbai, graduating 2026. I&apos;ve spent the last year building and deploying real production AI systems — not toy demos.
+            </motion.p>
+            <motion.p
               className="text-base leading-8 text-[var(--text-secondary)] sm:text-lg"
-              text="At Blackhole Inferverse, I contributed to a production News-AI pipeline processing 500+ articles per run, achieving 88%+ labelling accuracy. I've independently designed DocuMind AI and MailMind AI — publicly deployed, end-to-end owned systems."
-            />
-            <AnimatedParagraph
+              variants={fadeUp}
+            >
+              At Blackhole Inferverse, I contributed to a production News-AI pipeline processing 500+ articles per run, achieving 88%+ labelling accuracy. I&apos;ve independently designed DocuMind AI and MailMind AI — publicly deployed, end-to-end owned systems.
+            </motion.p>
+            <motion.p
               className="text-base leading-8 text-[var(--text-secondary)] sm:text-lg"
-              text="My focus: multi-agent architectures, RAG systems, and multimodal AI. I care about ownership, production readiness, and building things that actually work."
-            />
+              variants={fadeUp}
+            >
+              My focus: multi-agent architectures, RAG systems, and multimodal AI. I care about ownership, production readiness, and building things that actually work.
+            </motion.p>
           </div>
 
           <motion.div

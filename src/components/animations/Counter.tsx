@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useRef, useState } from "react";
 
 interface CounterProps {
@@ -14,61 +13,46 @@ export default function Counter({
   target,
   suffix = "",
   prefix = "",
-  duration = 2000,
+  duration = 1500,
   className,
 }: CounterProps) {
   const [count, setCount] = useState(0);
-  const started = useRef(false);
+  const hasRun = useRef(false);
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    if (hasRun.current) return;
+    hasRun.current = true;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !started.current) {
-          started.current = true;
-          animate();
-        }
-      },
-      { threshold: 0 },
-    );
-
-    observer.observe(el);
-
-    const fallback = setTimeout(() => {
-      if (!started.current) {
-        started.current = true;
-        animate();
-      }
-    }, 1500);
-
-    return () => {
-      observer.disconnect();
-      clearTimeout(fallback);
-    };
-  }, [target]);
-
-  function animate() {
     const startTime = performance.now();
 
-    function step(now: number) {
-      const p = Math.min((now - startTime) / duration, 1);
-      const e = 1 - (1 - p) ** 3;
-      setCount(Math.floor(target * e));
-      if (p < 1) requestAnimationFrame(step);
-      else setCount(target);
+    function easeOut(t: number): number {
+      return 1 - Math.pow(1 - t, 3);
     }
 
-    requestAnimationFrame(step);
-  }
+    function tick(now: number) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const current = Math.floor(easeOut(progress) * target);
+      setCount(current);
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        setCount(target);
+      }
+    }
+
+    // Small delay so component is mounted before animating
+    const timer = setTimeout(() => {
+      requestAnimationFrame(tick);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [target, duration]);
 
   return (
     <span ref={ref} className={className}>
-      {prefix}
-      {count}
-      {suffix}
+      {prefix}{count}{suffix}
     </span>
   );
 }

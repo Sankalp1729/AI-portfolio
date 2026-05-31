@@ -2,9 +2,9 @@ import type { SiteConfig } from "@/types";
 
 export const siteConfig: SiteConfig = {
   name: "Sankalp Pingalwad",
-  title: "AI Product & Engineer",
+  title: "AI Product Builder",
   description:
-    "Final-year AI Product & Engineering student building production RAG systems, multi-agent architectures, and deployed AI products. Based in Mumbai.",
+    "Final-year AI student in Mumbai who builds and ships AI products — email AI, RAG systems, multi-agent architectures. Thinking about product, not just code.",
   home: "/",
   resume: "/resume/resume.pdf",
   github: "https://github.com/Sankalp1729",
@@ -22,20 +22,19 @@ export const navItems = [
   { label: "Experience", href: "/#experience" },
   { label: "Skills", href: "/#skills" },
   { label: "Timeline", href: "/#timeline" },
-  { label: "Achievements", href: "/#achievements" },
   { label: "Contact", href: "/#contact" },
 ] as const;
 
 export const heroRoles = [
-  "AI Product & Engineer",
+  "AI Product Builder",
   "ML Engineer",
   "Data Scientist",
-  "Builder of Intelligent Systems",
+  "Builder of AI Products",
 ] as const;
 
 export const aboutStats = [
   { value: 500, suffix: "+", label: "Articles processed" },
   { value: 88, suffix: "%+", label: "Classification accuracy" },
-  { value: 4, suffix: "", label: "Deployed AI systems" },
+  { value: 3, suffix: "", label: "Deployed AI systems" },
   { value: 2026, suffix: "", label: "Graduating" },
 ];

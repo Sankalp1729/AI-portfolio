@@ -27,9 +27,9 @@ export const journeyTimeline: TimelineShowcaseItem[] = [
   },
   {
     year: "2026",
-    title: "AI Engineer",
+    title: "AI Product Builder",
     description:
-      "Graduating. Seeking full-time AI engineering roles. Building the future of intelligent systems.",
+      "Graduating. Seeking full-time AI Product Builder roles. Building the future of intelligent systems.",
   },
 ];
 

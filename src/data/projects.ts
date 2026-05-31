@@ -3,33 +3,6 @@ import type { ShowcaseProject } from "@/types";
 export const showcaseProjects: ShowcaseProject[] = [
   {
     number: "01",
-    title: "DocuMind AI",
-    image: "/projects/documind.png",
-    tagline: "RAG-powered multi-document intelligence platform",
-    description:
-      "Production RAG system with semantic retrieval over 100+ page PDFs. Sub-800ms query latency, 94%+ semantic relevance on factual queries. Full FastAPI REST backend, Dockerized, deployed on HuggingFace Spaces.",
-    fullDescription:
-      "Production RAG system built for long-form documents, grounded retrieval, and fast answer synthesis across dense PDF collections. The workflow emphasizes low-latency semantic search, chunk scoring, and deployment reliability rather than prototype behavior.",
-    metrics: ["<800ms latency", "94%+ relevance", "100+ page PDFs"],
-    tech: [
-      "LangChain",
-      "FAISS",
-      "HuggingFace",
-      "FastAPI",
-      "Docker",
-      "Streamlit",
-    ],
-    accent: "blue",
-    github: "https://github.com/Sankalp1729/DocuMind-AI",
-    demo: "https://huggingface.co/spaces",
-    architectureNotes: [
-      "FastAPI backend handles ingestion, retrieval, and answer orchestration.",
-      "Chunking and semantic retrieval are optimized for factual recall across large PDFs.",
-      "Dockerized deployment keeps the pipeline portable across environments.",
-    ],
-  },
-  {
-    number: "02",
     title: "MailMind AI",
     image: "/projects/mailmind.png",
     tagline: "AI email intelligence with RL-powered urgency scoring",
@@ -57,6 +30,33 @@ export const showcaseProjects: ShowcaseProject[] = [
       "OAuth 2.0 flow connects Gmail securely to the classification pipeline.",
       "Lazy-loaded transformer models reduce cold-start overhead on deployment.",
       "Plotly dashboards surface urgency and sentiment signals in real time.",
+    ],
+  },
+  {
+    number: "02",
+    title: "DocuMind AI",
+    image: "/projects/documind.png",
+    tagline: "RAG-powered multi-document intelligence platform",
+    description:
+      "Production RAG system with semantic retrieval over 100+ page PDFs. Sub-800ms query latency, 94%+ semantic relevance on factual queries. Full FastAPI REST backend, Dockerized, deployed on HuggingFace Spaces.",
+    fullDescription:
+      "Production RAG system built for long-form documents, grounded retrieval, and fast answer synthesis across dense PDF collections. The workflow emphasizes low-latency semantic search, chunk scoring, and deployment reliability rather than prototype behavior.",
+    metrics: ["<800ms latency", "94%+ relevance", "100+ page PDFs"],
+    tech: [
+      "LangChain",
+      "FAISS",
+      "HuggingFace",
+      "FastAPI",
+      "Docker",
+      "Streamlit",
+    ],
+    accent: "blue",
+    github: "https://github.com/Sankalp1729/DocuMind-AI",
+    demo: "https://huggingface.co/spaces",
+    architectureNotes: [
+      "FastAPI backend handles ingestion, retrieval, and answer orchestration.",
+      "Chunking and semantic retrieval are optimized for factual recall across large PDFs.",
+      "Dockerized deployment keeps the pipeline portable across environments.",
     ],
   },
   {

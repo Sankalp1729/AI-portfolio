@@ -2,7 +2,7 @@ import type { ExperienceShowcaseItem } from "@/types";
 
 export const experienceShowcase: ExperienceShowcaseItem = {
   company: "Blackhole Inferverse",
-  role: "AI / ML Engineering Intern",
+  role: "AI Product Builder Intern",
   period: "Sep 2025 – March 2026",
   location: "Mumbai, India",
   logo: "BI",

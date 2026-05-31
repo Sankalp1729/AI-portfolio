@@ -52,7 +52,7 @@ export default function Navbar() {
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:px-10"
         >
-          <a href="#home" className="group inline-flex items-center gap-3" aria-label="Go to top">
+          <a href="/#home" className="group inline-flex items-center gap-3" aria-label="Go to top">
             <span className="flex h-10 w-10 items-center justify-center rounded-full border border-blue-400/25 bg-[linear-gradient(135deg,var(--accent-blue)_0%,var(--accent-purple)_100%)] font-[family-name:var(--font-syne)] text-sm font-bold tracking-tight text-white shadow-[0_0_24px_rgba(59,130,246,0.35)] transition-transform duration-300 group-hover:scale-[1.03]">
               SP
             </span>
